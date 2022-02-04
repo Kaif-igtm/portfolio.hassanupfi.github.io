@@ -1,0 +1,184 @@
+.module{
+	color:white;
+	position:fixed;
+	left:50%;
+	top: 50%;
+    transform: translateY(-50%);
+	font-family:HelveNueThinNormal;
+}
+
+.module-back{
+	color:white;
+	font-family:HelveNueThinNormal;
+}
+
+.module-ui{
+	display:none;
+	color:white;
+	font-family:HelveNueThinNormal;
+}
+
+.module .module-title{
+	font-size:35px;
+	padding-bottom: 15px;
+}
+
+.module .module-text{
+	font-size:16px;
+	font-family:Arial;
+}
+
+
+.module select{
+	background-color: black;
+	width: 520px;
+	text-align: center;
+	border: 1px solid grey;
+	padding: 10px;
+	outline: 0px;
+	color: white;
+	font-size: 20px;
+	font-family: HelveNueThinNormal;
+	display: block;
+	margin-bottom:0px;
+	margin-top:30px;
+}
+
+
+.module input{
+	background-color:black;
+	font-size:20px;
+	padding: 10px;
+	color:white;
+	border:1px solid #555;
+	display:block;
+	font-family:HelveNueThinNormal;
+}
+
+.module input.large{
+	width: 500px;
+	margin-bottom: 5px;
+}
+
+
+.module input.small-input{
+	width:100px;
+	text-align: center;
+
+}
+
+.module textarea{
+	  margin-top: 30px;
+	  background-color: black;
+	  resize: none;
+	  color: #BBB;
+}
+
+
+.module-back{
+	position:fixed;
+	top:20px;
+	left:20px;
+	color:white;
+	font-size:20px;
+}
+
+.module-back img:not(.label-logo){
+	vertical-align: middle;
+	width: 60px;
+}
+.module-back img.label-logo{
+  vertical-align: middle;
+  margin-right: 5px;
+}
+
+.module .main-btn{
+	display: inline-block;
+	background-color: #00CC00;
+	float: right;
+	padding: 10px 50px;
+	font-size: 20px;
+	color: white;
+	/* width: 120px; */
+	text-align: center;
+	margin-top: 0px;
+	border: none;
+	margin-right: 3px;
+}
+
+.module#settings-module #favicon-btn , .module#settings-module #social-image-btn{
+	width: 150px;
+	padding: 22px 00px;
+	text-align: center;
+	border: 1px solid #333;
+	background-repeat: no-repeat;
+	background-position: center;
+	background-size: 35px;
+	display: inline-block;
+}
+
+.module#settings-module #social-image-btn{
+	background-size: contain;
+}
+
+.module#settings-module #favicon-btn:hover, .module#settings-module #social-image-btn:hover{
+	background-color:#666;
+}
+
+.module input#slug{
+	width: 482px;
+	display: inline-block;
+}
+
+.slug-slash{
+    font-size: 35px;
+    vertical-align: middle;
+    color: #888;
+    margin-right: 5px;
+}
+
+
+.module-back .grey-title{
+	color:grey;
+	vertical-align: middle;
+}
+
+.module .module-step{
+	display:none;
+	overflow: auto;
+	overflow-x:hidden;
+	height: 100vh;
+	position:relative;
+	flex-direction: column;
+	justify-content: center;
+}
+
+#saveas-module .saveas-step{
+	flex-direction: column;
+}
+
+#publish-module .publish-step{
+	height: 100vh;
+	overflow: auto;
+	overflow-x:hidden;
+	position:relative;
+	flex-direction: column;
+	justify-content: center;
+}
+
+#seo-form{
+	width: 525px;
+}
+
+
+.loading-state{
+	background-image: url(/images/x_loader.gif);
+	background-repeat: no-repeat;
+	background-size: contain;
+	background-position: center;
+	color: transparent!important;
+}
+
+.loading-state .app_field_input{
+	display:none;
+}

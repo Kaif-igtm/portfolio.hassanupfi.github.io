@@ -1,0 +1,135 @@
+var EditorCore = {};
+EditorCore.settings = {};
+EditorCore.saveTimers = {};
+
+EditorCore.init = function(){
+	XPRSHelper.GET("/settings/settings.json",{},function(settings){
+		EditorCore.settings  = settings;
+	},"json");
+};
+
+EditorCore.updateMultipleStyleKeys = function(params,callbackFunc){
+	XPRSHelper.SAFEPOST("/update_multiple_style_keys",params,params.styleid,params.props + "-" + params.modules,callbackFunc);
+};
+
+EditorCore.deleteSpecificStyleKey = function(params,callbackFunc){
+	XPRSHelper.SAFEPOST("/delete_specific_style_key",params,params.style_holder, "DELETE-" + params.prop,callbackFunc);
+};
+
+EditorCore.setElementLink = function(elementId, itemId, type, value, target, nofollow,submitText,mailingList){
+	var linkJSon = {};
+	linkJSon["TYPE"] = type;
+	if (type != "NOTHING"){
+		linkJSon["URL"] = value;
+		linkJSon["TARGET"] = "_self";
+		if (typeof target != "undefined"){
+			linkJSon["TARGET"] = target;
+		}
+		if (typeof nofollow != "undefined"){
+			linkJSon["NOFOLLOW"] = true;
+		}
+		if (typeof submitText != "undefined"){
+			linkJSon["SUBMIT_TEXT"] = submitText;
+		}
+		if (typeof mailingList != "undefined"){
+			linkJSon["MAILING_LIST"] = mailingList;
+		}
+	}
+	linkJSon = JSON.stringify(linkJSon);
+	var stripeId = $("#" + elementId).closest(".master.item-box").attr("id");
+	XPRSHelper.SAFEPOST("/wrap_element_in_link",{"item_id":itemId,"element_id":elementId,"link_obj":linkJSon,"stripe_id":stripeId},itemId, "ADD_LINK");
+};
+
+EditorCore.saveStyleChange = function(moduleName,prop,newVal,styleToUpdateId,callbackFunc){
+	if (typeof callbackFunc != "undefined"){
+		callbackFunc();
+	}
+	var parentId;
+	var relevantStyle = EditorCore.settings["MODULES"][moduleName]["STYLE"];
+	var params = {};
+	if (typeof prop.and_reset !="undefined"){
+		params["and_reset"] = prop.and_reset;
+	}
+	if (styleToUpdateId == ""){
+		var currentActiveView = $("#views-holder .view.active");
+		styleToUpdateId = currentActiveView.find(".current-item").attr("data-previewstyleid");
+		if (relevantStyle=="STRIPE_DATA"){
+			if (SpimeEditor){
+				parentVbid = SpimeEditor.getHolderParentId(prop.initiatorId);
+			}else{
+				parentVbid = EditorHelper.getHolderParentId(prop.initiatorId);
+			}
+			parentView = $("#views-holder .view.content#" +  parentVbid);
+			styleToUpdateId = parentView.find(".current-item").attr("data-itemstyleid");
+		}
+		params['id_type'] = "sbid";
+	}else{
+		if (typeof styleToUpdateId != "undefined" && styleToUpdateId.indexOf('style-') != -1){
+			params['id_type'] = "sbid";
+		}else{
+			params['id_type'] = "vbid";
+		}
+	}
+	if (relevantStyle=="STRIPE_DATA"){
+		
+		params["style_holder"] = parentId;
+		if (params["style_holder"] == null){
+			params["style_holder"] = styleToUpdateId;
+		}
+	}
+	//debounce save
+	var timerKey = moduleName + "_" + prop.name + "_" + styleToUpdateId;
+	if (timerKey in EditorCore.saveTimers){
+		clearTimeout(EditorCore.saveTimers[timerKey]);
+	}
+	EditorCore.saveTimers[timerKey] = setTimeout(function(){
+		delete EditorCore.saveTimers[timerKey] ; 
+		params['styleid'] = styleToUpdateId;
+		params['modules'] = moduleName;
+		params['props'] = prop.name;
+		params['values'] = newVal;
+		params['initiator'] = prop.initiatorId;
+		params['relevant_style'] = relevantStyle;
+		for( propIndex in EditorCore.settings["MODULES"][moduleName]["PROPERTIES"] ){
+			var propObj = EditorCore.settings["MODULES"][moduleName]["PROPERTIES"][propIndex];
+			if (propObj.name == prop.name){
+				prop.default_value = propObj.default_value;
+			}
+		}
+		if (newVal == prop.default_value && params.props.indexOf("STRIPE_PADDING") == -1){
+			 params['module'] = moduleName;
+			 params['prop'] = prop.name;
+			 params['value'] = newVal;
+			 EditorCore.deleteSpecificStyleKey(params,function(){
+			    	if (typeof callbackFunc != "undefined"){
+			    		callbackFunc();
+			    	}
+			    });
+		}else{
+			if (!isNaN(parseFloat(newVal)) && isFinite(newVal)){
+				if (newVal % 1 === 0){
+					params["is_int"] = true;
+				}else{
+					params["is_float"] = true;
+				}
+			}
+			if (params.props.indexOf("STRIPE_PADDING") != -1){
+				//sync the padding fields
+				if (params.props.indexOf("LEFT") != -1){
+					$("#STRIPE_PADDING_RIGHT input").val(newVal);
+				}else{
+					$("#STRIPE_PADDING_LEFT input").val(newVal);
+				}
+				params.modules = "STRIPE|STRIPE|STRIPE";
+				params.props = "STRIPE_PADDING_LEFT|STRIPE_PADDING_RIGHT|STRIPE_WIDTH";
+				var newWidth = 100 - parseInt(newVal)*2;
+				params.values = newVal + "-INT|" + newVal + "-INT|" + newWidth + "-INT|";
+				EditorCore.updateMultipleStyleKeys(params,function(){
+			    });
+			}else{
+				EditorCore.updateMultipleStyleKeys(params,function(){
+			    });
+			}
+		}
+	},1000);
+};

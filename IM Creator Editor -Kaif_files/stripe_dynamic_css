@@ -1,0 +1,247 @@
+/*GENERATED CACHE BUT SERVED DYNAMICALLY 2*//******************************************************************************************************
+ *            DYNAMIC STYLE FOR style-6ad7c13d-sffmv1rr version 1.0
+ *                                 	 
+ ******************************************************************************************************/
+	 .style-e31d217a-3xpnigca .style-6ad7c13d-sffmv1rr  .preview-content-holder  {
+		
+						text-align: left;
+						
+						max-width: 650px;
+						
+						margin-right: 0px;
+						
+						margin-top: 50px;
+						
+						margin-left: 0px;
+						
+						margin-bottom: 50px;
+						
+						background-color: rgba(255, 255, 255, 0);
+							
+		}
+	 .style-e31d217a-3xpnigca .style-6ad7c13d-sffmv1rr .item-content:not(.blocks_layout)  {
+		
+						background-color: rgba(0, 0, 0, 0);
+							
+		}
+	 .style-e31d217a-3xpnigca .style-6ad7c13d-sffmv1rr .preview-divider  {
+		
+						border-color: rgb(255, 255, 255);
+							
+		}
+	 .style-e31d217a-3xpnigca .style-6ad7c13d-sffmv1rr .inner-pic  {
+		
+						opacity: 0.63;
+						
+						color: rgb(255, 255, 255);
+						
+		    			-webkit-filter: grayscale(100%) brightness(0.6);	
+		}
+	 .style-e31d217a-3xpnigca .style-6ad7c13d-sffmv1rr .preview-subtitle-holder  {
+		
+						max-width: 1050px;
+							
+		}
+	 .style-e31d217a-3xpnigca .style-6ad7c13d-sffmv1rr .multi_layout .helper-div.middle-center .pic-side  {
+		
+						margin-left: -6%;
+							
+		}
+	 .style-e31d217a-3xpnigca .style-6ad7c13d-sffmv1rr .multi_layout .helper-div.middle-center  {
+		
+						padding-left: 6%;
+						
+						padding-right: 6%;
+						
+						width: 88%;
+							
+		}
+	 .style-e31d217a-3xpnigca .style-6ad7c13d-sffmv1rr .background-div  {
+			
+		}
+	 .style-e31d217a-3xpnigca .style-6ad7c13d-sffmv1rr.master.item-box   {
+		
+						background-color: rgb(239, 239, 239);
+							
+		}
+	 .style-e31d217a-3xpnigca .style-6ad7c13d-sffmv1rr .preview-title  ,  .style-e31d217a-3xpnigca .style-6ad7c13d-sffmv1rr .preview-body h1  { 
+						line-height: 1.0em;
+						font-size:calc( 10px + ( 21rem - 10rem ) );
+						text-transform: uppercase;
+						
+						color: rgb(255, 255, 255);
+						
+						letter-spacing: 0.05em;
+						
+						margin-top: 10px;
+						
+						margin-bottom: 10px;
+						
+						font-family: Montserrat;
+						
+						background-color: rgba(255, 255, 255, 0);
+							
+		}
+	 .style-e31d217a-3xpnigca .style-6ad7c13d-sffmv1rr .preview-item-links span  ,  .style-e31d217a-3xpnigca .style-6ad7c13d-sffmv1rr #sr-basket-widget *  { 
+						border-width: 0px;
+						font-size:calc( 10px + ( 12rem - 10rem ) );
+						text-transform: uppercase;
+						
+						color: rgb(255, 255, 255);
+						
+						padding-bottom: 10px;
+						
+						border-color: rgb(255, 255, 255);
+						
+						letter-spacing: 0.25em;
+						
+						padding-right: 20px;
+						
+						margin-top: 40px;
+						
+						padding-left: 20px;
+						
+						border-radius: 0px;
+						
+						padding-top: 10px;
+						
+						margin-bottom: 10px;
+						
+						font-family: Montserrat;
+						
+						background-color: rgb(78, 112, 71);
+							
+		}
+	 .style-e31d217a-3xpnigca .style-6ad7c13d-sffmv1rr .preview-element.icon-source  {
+		
+						width: 160px;
+							
+		}
+	 .style-e31d217a-3xpnigca .style-6ad7c13d-sffmv1rr .background-image-div  {
+		
+						color: rgb(255, 255, 255);
+							
+		}
+	 .style-e31d217a-3xpnigca .style-6ad7c13d-sffmv1rr .preview-icon-holder  {
+		
+						margin-bottom: 40px;
+							
+		}
+	 .style-e31d217a-3xpnigca .style-6ad7c13d-sffmv1rr .preview-body-holder  {
+		
+						max-width: 600px;
+							
+		}
+	 .style-e31d217a-3xpnigca .style-6ad7c13d-sffmv1rr  .preview-content-wrapper  {
+		
+						text-align: left;
+						
+						vertical-align: middle;
+							
+		}
+	 .style-e31d217a-3xpnigca .style-6ad7c13d-sffmv1rr .preview-item-links span:hover  ,  .style-e31d217a-3xpnigca .style-6ad7c13d-sffmv1rr .preview-element.Link.hover-tester  { 
+						color: rgb(255, 255, 255);
+						
+						background-color: rgb(48, 48, 48);
+							
+		}
+	 .style-e31d217a-3xpnigca .style-6ad7c13d-sffmv1rr .inner-pic-holder  {
+		
+						background-color: rgb(0, 0, 0);
+							
+		}
+	 .style-e31d217a-3xpnigca .style-6ad7c13d-sffmv1rr .preview-item-links span:before  ,  .style-e31d217a-3xpnigca .style-6ad7c13d-sffmv1rr .effect-tester  { 
+						background-color: rgb(0, 0, 0);
+							
+		}
+	 .style-e31d217a-3xpnigca .style-6ad7c13d-sffmv1rr .preview-body  {
+		
+						line-height: 1.5em;
+						font-size:calc( 10px + ( 12rem - 10rem ) );
+						color: rgb(128, 128, 128);
+						
+						max-width: 600px;
+						
+						margin-top: 10px;
+						
+						margin-bottom: 10px;
+						
+						font-family: Arial;
+							
+		}
+	
+	 .style-e31d217a-3xpnigca .style-6ad7c13d-sffmv1rr .middle_layout .helper-div  ,  .style-e31d217a-3xpnigca .style-6ad7c13d-sffmv1rr .multi_layout .helper-div.middle-center .text-side  { 
+						max-width: 1000px;
+							
+		}
+	 .style-e31d217a-3xpnigca .style-6ad7c13d-sffmv1rr .preview-subtitle  ,  .style-e31d217a-3xpnigca .style-6ad7c13d-sffmv1rr .preview-body h2  { 
+						font-family: Montserrat;
+						font-size:calc( 10px + ( 12rem - 10rem ) );
+						text-transform: uppercase;
+						
+						color: rgb(78, 112, 71);
+						
+						letter-spacing: 0.05em;
+						
+						margin-right: 0px;
+						
+						margin-top: 10px;
+						
+						margin-left: 0px;
+						
+						margin-bottom: 10px;
+						
+						line-height: 1.2em;
+							
+		}
+
+/******************************************************************************************************
+ *            UNIQUE STYLE
+ *                                 	 
+ ******************************************************************************************************/
+ .style-6ad7c13d-sffmv1rr #vbid-6ad7c13d-n3jb8vrb .preview-content-holder{
+				
+							text-align : center;
+					
+				}
+
+
+ .style-6ad7c13d-sffmv1rr #vbid-6ad7c13d-el17h9ky.inner-pic{
+				
+							background-position : 50% 50%;
+					
+				} .style-6ad7c13d-sffmv1rr #vbid-6ad7c13d-xtcl3qqr.inner-pic{
+				
+							background-position : 34.7607% 0%;
+					
+				}
+
+
+
+
+
+
+
+
+
+
+
+ .style-6ad7c13d-sffmv1rr #vbid-6ad7c13d-n3jb8vrb .preview-content-wrapper{
+				
+							text-align : center;
+					
+				}
+
+
+
+
+
+
+
+
+
+
+/******************************************************************************************************
+ *            WEBSITE STYLE
+ *                                 	 
+ ******************************************************************************************************/

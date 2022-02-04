@@ -1,0 +1,185 @@
+/*CACHED*//******************************************************************************************************
+ *            DYNAMIC STYLE FOR style-e31d217a-6zabo4w1 version 1.0
+ *                                 	 
+ ******************************************************************************************************/
+	 .style-e31d217a-3xpnigca .style-e31d217a-6zabo4w1.master.item-box   {
+		
+						position: relative;
+						
+						background-color: rgb(255, 255, 255);
+							
+		}
+	 .style-e31d217a-3xpnigca .style-e31d217a-6zabo4w1 .preview-item-links span:hover  ,  .style-e31d217a-3xpnigca .style-e31d217a-6zabo4w1 .preview-element.Link.hover-tester  { 
+						color: rgb(0, 0, 0);
+						
+						background-color: rgba(0, 0, 0, 0);
+							
+		}
+	 .style-e31d217a-3xpnigca .style-e31d217a-6zabo4w1 .preview-item-links span:before  ,  .style-e31d217a-3xpnigca .style-e31d217a-6zabo4w1 .effect-tester  { 
+						background-color: rgb(60, 60, 60);
+							
+		}
+	 .style-e31d217a-3xpnigca .style-e31d217a-6zabo4w1.master.item-box   {
+		
+						padding-left: 6%;
+						
+						padding-right: 6%;
+						
+						width: 88%;
+							
+		}
+	 .style-e31d217a-3xpnigca .style-e31d217a-6zabo4w1 .preview-item-links  {
+		
+						text-align: center;
+							
+		}
+	 .style-e31d217a-3xpnigca .style-e31d217a-6zabo4w1  .preview-content-holder  {
+		
+						border-color: rgb(214, 214, 214);
+						
+						max-width: 2000px;
+						
+						margin-right: 10px;
+						
+						margin-top: 0px;
+						
+						background-color: rgba(0, 0, 0, 0);
+						
+						text-align: left;
+							
+		}
+	 .style-e31d217a-3xpnigca .style-e31d217a-6zabo4w1 .preview-item-links span  ,  .style-e31d217a-3xpnigca .style-e31d217a-6zabo4w1 #sr-basket-widget *  { font-size:calc( 10px + ( 12rem - 10rem ) );
+						color: rgb(181, 181, 181);
+						
+						padding-bottom: 5px;
+						
+						border-color: rgb(0, 0, 0);
+						
+						letter-spacing: 0.05em;
+						
+						max-width: 1150px;
+						
+						padding-right: 20px;
+						
+						padding-left: 20px;
+						
+						border-radius: 0px;
+						
+						padding-top: 5px;
+						
+						font-family: "Playfair Display";
+						
+						background-color: rgba(0, 0, 0, 0);
+						
+						margin-left: 0px;
+							
+		}
+	 .style-e31d217a-3xpnigca .style-e31d217a-6zabo4w1 .preview-title  ,  .style-e31d217a-3xpnigca .style-e31d217a-6zabo4w1 .preview-body h1  { font-size:calc( 10px + ( 14rem - 10rem ) );
+						color: rgb(0, 0, 0);
+						
+						letter-spacing: 0.0em;
+						
+						margin-right: 10px;
+						
+						margin-left: 0px;
+						
+						font-family: "Playfair Display";
+						
+						background-color: rgba(255, 255, 255, 0);
+							
+		}
+	 .style-e31d217a-3xpnigca .style-e31d217a-6zabo4w1 .preview-item-links.allow-bg-color  ,  .style-e31d217a-3xpnigca .style-e31d217a-6zabo4w1 .submenu  { 
+						background-color: rgb(0, 0, 0);
+							
+		}
+	 .style-e31d217a-3xpnigca .style-e31d217a-6zabo4w1 .preview-title-holder  {
+		
+						text-align: left;
+							
+		}
+	 .style-e31d217a-3xpnigca .style-e31d217a-6zabo4w1 .item-content:not(.blocks_layout)  {
+		
+						background-color: rgba(244, 203, 74, 0);
+							
+		}
+	 .style-e31d217a-3xpnigca .style-e31d217a-6zabo4w1 .preview-subtitle-holder  {
+		
+						text-align: left;
+							
+		}
+	 .style-e31d217a-3xpnigca .style-e31d217a-6zabo4w1 .stripe-background  {
+		
+						margin-left: -6%;
+							
+		}
+	 .style-e31d217a-3xpnigca .style-e31d217a-6zabo4w1 .preview-element.icon-source  {
+		
+						padding-right: 5px;
+						
+						color: rgb(0, 0, 0);
+						
+						margin-right: 0px;
+						
+						margin-left: 0px;
+						
+						padding-left: 0px;
+						
+						width: 40px;
+							
+		}
+	 .style-e31d217a-3xpnigca .style-e31d217a-6zabo4w1  .preview-content-wrapper  {
+		
+						vertical-align: bottom;
+						
+						text-align: center;
+							
+		}
+	 .style-e31d217a-3xpnigca .style-e31d217a-6zabo4w1 .middle_layout .helper-div  ,  .style-e31d217a-3xpnigca .style-e31d217a-6zabo4w1 .multi_layout .helper-div.middle-center .text-side  { 
+						max-width: 1000px;
+							
+		}
+	 .style-e31d217a-3xpnigca .style-e31d217a-6zabo4w1 .preview-subtitle  ,  .style-e31d217a-3xpnigca .style-e31d217a-6zabo4w1 .preview-body h2  { font-size:calc( 10px + ( 12rem - 10rem ) );
+						color: rgb(152, 152, 152);
+						
+						letter-spacing: 0.0em;
+						
+						margin-right: 0px;
+						
+						margin-top: 5px;
+						
+						margin-left: 0px;
+						
+						margin-bottom: 5px;
+						
+						font-family: Raleway;
+							
+		}
+
+/******************************************************************************************************
+ *            UNIQUE STYLE
+ *                                 	 
+ ******************************************************************************************************/
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/******************************************************************************************************
+ *            WEBSITE STYLE
+ *                                 	 
+ ******************************************************************************************************/

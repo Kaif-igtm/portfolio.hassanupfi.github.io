@@ -1,0 +1,262 @@
+/*CACHED*//******************************************************************************************************
+ *            DYNAMIC STYLE FOR style-e31d217a-donncy7b version 1.0
+ *                                 	 
+ ******************************************************************************************************/
+	 .style-e31d217a-3xpnigca .style-e31d217a-donncy7b  .preview-content-holder  {
+		
+						margin-right: 0px;
+						
+						padding-bottom: 0px;
+						
+						text-align: center;
+						
+						max-width: 1200px;
+						
+						padding-right: 0px;
+						
+						margin-top: 50px;
+						
+						margin-left: 0px;
+						
+						padding-top: 0px;
+						
+						margin-bottom: 50px;
+						
+						background-color: rgba(255, 255, 255, 0);
+						
+						border-color: rgba(253, 253, 253, 0.53);
+						
+						padding-left: 0px;
+							
+		}
+	 .style-e31d217a-3xpnigca .style-e31d217a-donncy7b .item-content:not(.blocks_layout)  {
+		
+						background-color: rgb(27, 73, 190);
+							
+		}
+	 .style-e31d217a-3xpnigca .style-e31d217a-donncy7b .preview-divider  {
+		
+						width: 100%;
+							
+		}
+	 .style-e31d217a-3xpnigca .style-e31d217a-donncy7b .inner-pic  {
+		
+						color: rgb(0, 0, 0);
+						
+						opacity: 1;
+						
+		    			-webkit-filter:none;filter:none;	
+		}
+	 .style-e31d217a-3xpnigca .style-e31d217a-donncy7b .multi_layout .helper-div.middle-center .pic-side  {
+		
+						margin-left: -6%;
+							
+		}
+	 .style-e31d217a-3xpnigca .style-e31d217a-donncy7b .multi_layout .helper-div.middle-center  {
+		
+						padding-left: 6%;
+						
+						padding-right: 6%;
+						
+						width: 88%;
+							
+		}
+	 .style-e31d217a-3xpnigca .style-e31d217a-donncy7b.master.item-box   {
+		
+						background-color: rgba(0, 0, 0, 0);
+							
+		}
+	 .style-e31d217a-3xpnigca .style-e31d217a-donncy7b .preview-title  ,  .style-e31d217a-3xpnigca .style-e31d217a-donncy7b .preview-body h1  { 
+						line-height: 1.2em;
+						font-size:calc( 10px + ( 36rem - 10rem ) );
+						color: rgb(0, 0, 0);
+						
+						letter-spacing: 0.0em;
+						
+						margin-top: 10px;
+						
+						margin-bottom: 5px;
+						
+						font-family: "Playfair Display";
+						
+						background-color: rgba(255, 255, 255, 0);
+							
+		}
+	 .style-e31d217a-3xpnigca .style-e31d217a-donncy7b.master.item-box   {
+		
+						padding-left: 0%;
+						
+						padding-right: 0%;
+						
+						width: 100%;
+							
+		}
+	 .style-e31d217a-3xpnigca .style-e31d217a-donncy7b .preview-item-links span  ,  .style-e31d217a-3xpnigca .style-e31d217a-donncy7b #sr-basket-widget *  { font-size:calc( 10px + ( 13rem - 10rem ) );
+						color: rgb(255, 255, 255);
+						
+						padding-bottom: 10px;
+						
+						border-color: rgb(255, 255, 255);
+						
+						letter-spacing: 0.15em;
+						
+						padding-right: 20px;
+						
+						margin-top: 10px;
+						
+						padding-left: 20px;
+						
+						padding-top: 10px;
+						
+						margin-bottom: 10px;
+						
+						font-family: Arial;
+						
+						background-color: rgb(0, 0, 0);
+							
+		}
+	 .style-e31d217a-3xpnigca .style-e31d217a-donncy7b .stripe-background  {
+		
+						margin-left: 0%;
+							
+		}
+	 .style-e31d217a-3xpnigca .style-e31d217a-donncy7b .preview-element.icon-source  {
+		
+						margin-bottom: 15px;
+						
+						width: 660px;
+							
+		}
+	 .style-e31d217a-3xpnigca .style-e31d217a-donncy7b .background-image-div  {
+		
+						color: rgb(0, 0, 0);
+							
+		}
+	 .style-e31d217a-3xpnigca .style-e31d217a-donncy7b .preview-link-img  {
+		
+						width: 30px;
+						
+						margin: 15px;
+							
+		}
+	 .style-e31d217a-3xpnigca .style-e31d217a-donncy7b .preview-icon-holder  {
+		
+						margin-bottom: 40px;
+							
+		}
+	 .style-e31d217a-3xpnigca .style-e31d217a-donncy7b  .preview-content-wrapper  {
+		
+						text-align: center;
+						
+						vertical-align: middle;
+							
+		}
+	 .style-e31d217a-3xpnigca .style-e31d217a-donncy7b .preview-item-links span:hover  ,  .style-e31d217a-3xpnigca .style-e31d217a-donncy7b .preview-element.Link.hover-tester  { 
+						color: rgb(255, 255, 255);
+						
+						background-color: rgb(57, 57, 57);
+							
+		}
+	 .style-e31d217a-3xpnigca .style-e31d217a-donncy7b .inner-pic-holder  {
+		
+						background-color: rgb(255, 255, 255);
+							
+		}
+	 .style-e31d217a-3xpnigca .style-e31d217a-donncy7b .preview-body  {
+		
+						line-height: 1.4em;
+						font-size:calc( 10px + ( 16rem - 10rem ) );
+						color: rgb(255, 255, 255);
+						
+						letter-spacing: 0.05em;
+						
+						max-width: 600px;
+						
+						margin-top: 5px;
+						
+						margin-bottom: 20px;
+						
+						font-family: HelveNueThinNormal;
+							
+		}
+	
+	 .style-e31d217a-3xpnigca .style-e31d217a-donncy7b .preview-social-holder  {
+		
+						margin-bottom: 15px;
+						
+						margin-top: 10px;
+							
+		}
+	 .style-e31d217a-3xpnigca .style-e31d217a-donncy7b .middle_layout .helper-div  ,  .style-e31d217a-3xpnigca .style-e31d217a-donncy7b .multi_layout .helper-div.middle-center .text-side  { 
+						max-width: 2000px;
+							
+		}
+	 .style-e31d217a-3xpnigca .style-e31d217a-donncy7b .preview-subtitle  ,  .style-e31d217a-3xpnigca .style-e31d217a-donncy7b .preview-body h2  { 
+						font-family: Abel;
+						font-size:calc( 10px + ( 12rem - 10rem ) );
+						margin-right: 0px;
+						
+						color: rgb(0, 0, 0);
+						
+						letter-spacing: 0.55em;
+						
+						font-weight: bold;
+						
+						margin-top: 10px;
+						
+						margin-left: 0px;
+						
+						margin-bottom: 10px;
+						
+						line-height: 1.1em;
+						
+						background-color: rgba(0, 0, 0, 0);
+							
+		}
+
+/******************************************************************************************************
+ *            UNIQUE STYLE
+ *                                 	 
+ ******************************************************************************************************/
+ .style-e31d217a-donncy7b #vbid-e31d217a-u0koidez .preview-content-holder{
+				
+							text-align : left;
+					
+				}
+
+
+ .style-e31d217a-donncy7b #vbid-e31d217a-l6ak4wdl.inner-pic{
+				
+							background-size : 37%;
+					
+				}
+
+
+
+
+
+
+
+
+
+
+
+ .style-e31d217a-donncy7b #vbid-e31d217a-u0koidez .preview-content-wrapper{
+				
+							text-align : left;
+					
+				}
+
+
+
+
+
+
+
+
+
+
+/******************************************************************************************************
+ *            WEBSITE STYLE
+ *                                 	 
+ ******************************************************************************************************/

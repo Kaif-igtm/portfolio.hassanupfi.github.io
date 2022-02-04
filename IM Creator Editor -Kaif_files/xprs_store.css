@@ -1,0 +1,764 @@
+
+.imos-header{
+	height:100px;
+	/*display:table-row;*/
+}
+
+.imos-header .imos-hamburger{
+	position: absolute;
+    width: 40px;
+    right: 30px;
+    top: 30px;
+    z-index: 1000;
+    background-image: url(/images/ui_icons/matrix_icon.png);
+    height: 40px;
+}
+
+.imos-header .imos-help{
+    position: absolute;
+    width: 40px;
+    right: 70px;
+    top: 30px;
+    z-index: 123456789;
+    background-image: url(/images/ui_icons/tips_ico.png);
+    height: 40px;
+    background-size: 50px;
+    background-position: center -3PX;
+}
+
+
+.imos-header .imos-logo{
+	position: absolute;
+    left: 30px;
+    top: 30px;
+    z-index: 1000;
+    height: 50px;
+}
+
+.imos-window .imos-content{
+	/*display: table-cell;*/
+    /*padding: 0 10%;*/
+}
+
+.imos-window.store{
+	background-color:#339966;
+}
+
+.imos-window.store .imos-content, #imos-popup-content.store{
+	background-color: #339966;
+}
+
+.imos-window.store .imos-content .imos-btn, #imos-popup-content.store .imos-btn , .imos-window.store ~ .imos-btn {
+		color: #339966;
+}
+
+.imos-window.traffic .imos-content .imos-btn, #imos-popup-content.traffic .imos-btn , .imos-window.traffic ~ .imos-btn {
+		color: #314688;
+}
+
+.imos-window.traffic.showing-menu ~ .imos-btn,.imos-window.store.showing-menu ~ .imos-btn {
+	color:black;
+}
+
+.imos-window.traffic .imos-content{
+	background-color: #314688;
+}
+
+.imos-window.traffic{
+	background-color:#314688;
+}
+
+
+.imos-window.communication{
+	background-color:#666;
+}
+
+.imos-window.communication .imos-content, #imos-popup-content.communication{
+	background-color: #666;
+}
+
+.imos-window.communication .imos-content .imos-btn, #imos-popup-content.communication .imos-btn , .imos-window.communication ~ .imos-btn {
+	color: #666;
+}
+
+
+ .imos-btn.imos-close{
+	bottom: 12%;
+    z-index: 12345;
+    right: 11%;
+}
+
+ .imos-btn{
+	padding: 5px 30px;
+    position: absolute;
+    bottom: 30px;
+    right: 30px;
+    color: black;
+    background-color: white;
+    border: 1px rgba(255,255,255,0.5) solid;
+    font-weight: bold;
+    font-family: Arial;
+}
+
+.imos-btn.imos-preview-btn{
+    right: 140px;
+    padding: 5px 15px;
+}
+
+.imos-window{
+	/*display:table;*/
+	overflow-y: auto;
+	min-width:500px;
+	min-height:500px;
+	height:80%;
+	width:80%;
+	position:absolute;
+	top:50%;
+	left:50%;
+	transform:translateX(-50%) translateY(-50%);
+	font-size: 14px;
+	font-family:Arial;
+}
+
+
+.imos-window::-webkit-scrollbar-track , #imos-popup-content::-webkit-scrollbar-track{
+	background-color:transparent;
+}
+
+.imos-window::-webkit-scrollbar,#imos-popup-content::-webkit-scrollbar {
+	width: 9px;
+	background-color: transparent;
+}
+
+.imos-window::-webkit-scrollbar-thumb, #imos-popup-content::-webkit-scrollbar-thumb{
+	background-color: rgba(255,255,255,0.5);;
+	
+}
+
+.imos-window .imos-wrapper{
+	width: 80%;
+    margin: auto;
+}
+
+
+.standalone.imos-window{
+	height:100%;
+	width:100%;
+} 
+
+.imos-blocker{
+	display:none;
+	position:fixed;
+	left:0px;
+	top:0px;
+	width:100%;
+	height:100%;
+	background-color:rgba(0,0,0,0.7);
+	z-index: 9999999999;
+}
+
+
+.imos-start{
+	display:none;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-color: black;
+    top: 0px;
+    left: 0px;
+    color:white;
+}
+
+.imos-start .imos-welcome-step .imos-step-content{
+	position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translateX(-50%) translateY(-50%);
+    color: white;
+}
+
+.imos-start ul{
+		position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translateX(-50%) translateY(-57%);
+    color: white;
+}
+
+
+.imos-start .imos-welcome-step{
+	display:none;
+	font-size:30px;	
+	color: white;
+    font-family: 'HelveNueThinNormal';
+    font-size: 30px;
+}
+
+.imos-start ul{
+	padding: 0px;
+    width: 80%;
+    text-align: center;
+    margin:auto;
+     max-width: 825px;
+    min-width: 410px;
+}
+
+.imos-menu-title{
+    text-align: left;
+    padding-bottom: 60px;
+}
+
+
+
+.imos-content.loading-state, #imos-popup-content.loading-state{
+	background-image:url('/images/x_loader.gif');
+	background-repeat:no-repeat;
+	background-position: center;
+	background-size:50px;
+}
+
+.imos-menu{
+	text-align: left;
+    padding-bottom: 50px;
+}
+
+.imos-menu ul{
+    display: inline-block;
+    border-radius: 20px;
+    font-size: 0;
+    font-family: Arial;
+    padding:0;
+}
+
+.imos-menu ul li{
+	display: inline-block;
+    font-size: 16px;
+    padding: 10px 10px;
+    border-right:none;
+    color: rgba(255,255,255,0.5);
+    font-family: Arial;
+}
+
+.imos-menu ul li:first-child{
+	padding-left: 0px;
+}
+
+
+.imos-menu .imos-title, .popup-title{
+	color:rgba(0,0,0,0.5);
+	text-align:left;
+	font-weight: 800;
+    font-family: 'HelveNueThinNormal';
+    font-size: 30px;
+}
+
+.popup-title{
+	margin-bottom:40px;
+}
+
+.imos-menu ul li:hover, .imos-menu ul li.selected{
+    color:white;
+}
+
+.cms-content .category-name{
+	padding-left: 40px;
+}
+
+.cms-content th.header-title{
+	text-align:left;
+	color: rgba(255,255,255,0.5);
+	font-family: 'Montserrat';
+	font-size:12px;
+}
+
+.cms-content{
+	/*overflow: auto;*/
+    max-height: 80%;
+    overflow:visible;
+    text-align:center;
+}
+
+
+.cms-content.loading-state, .imos-window.loading-state{
+	background-image:url('/images/x_loader.gif');
+	background-repeat:no-repeat;
+	background-size:contain;
+	background-position: center;
+	background-size:50px;
+}
+
+
+
+
+.store-settings, .emails-holder{
+    margin-left: auto;
+    margin-right: auto;
+    font-size: 16px;
+    color: rgba(255,255,255,0.5);
+    max-width: 1100px;
+}
+
+
+.emails-holder textarea{
+	width:460px;
+	height:200px;
+	border: none;
+    background-color: rgba(255,255,255,0.5);
+    font-family: Arial;
+    margin: 10px 0px;
+}
+
+.emails-holder .emails-btn{
+    background-color: rgba(0,0,0,0.5);
+    border: none;
+    color: rgba(255,255,255,0.5);
+    padding: 5px 10px;
+    border-radius: 4px;
+}
+
+
+.emails-btn.finished-state{
+	background-image:url('/images/x_loader.gif');
+	background-repeat:no-repeat;
+	background-position: center;
+	background-size:50px;
+}
+
+
+
+form.email-block {
+    display: inline-block;
+    border: 1px rgba(255,255,255,0.5) solid;
+    margin: 10px;
+    padding: 10px;
+    text-align: left;
+}
+
+.email-remarks{
+	padding-left: 45px;
+	text-align:left;
+    display: inline-block;
+}
+
+
+
+.store-settings input, .store-settings option, form.email-block input{
+	border: none;
+    background-color: transparent;
+    overflow: hidden;
+    font-family:Arial;
+    color:white;
+    margin-left:3px;
+}
+
+.store-settings .owner_email{
+	width:300px;
+}
+
+
+.store-settings select{
+    background-color: #339966;
+    color: white;
+}
+
+.store-settings label{
+	margin:10px;
+	margin-right:30px;
+	background: none;
+}
+
+.emails-holder .emails-btn.being-updated,.emails-holder .emails-btn.finished-update{
+	 color:transparent;
+}
+
+
+.editable{
+	position:relative;
+}
+
+/*
+.editable:hover:after{
+    content: "";
+    background-image: url('/images/ui_icons/edit_icon.png');
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: center;
+    width: 25px;
+    height: 25px;
+    position: absolute;
+    margin-left: 5px;
+    top: -5px;
+    right: -25px;
+}
+*/
+
+
+.being-updated{
+	background-image: url('/images/x_loader.gif');
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: center;
+   
+}
+
+ .being-updated:after{
+	content: "";
+    background-image: url('/images/x_loader.gif');
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: center;
+    width: 25px;
+    height: 25px;
+    position: absolute;
+    margin-left: 5px;
+}
+
+.finished-update{
+	    background-image: url('/images/ui_icons/icons_extra_for_gilad_0003.png');
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: center;
+}
+
+ .finished-update:after{
+	content: "";
+	margin-left: 5px;
+    background-image: url('/images/ui_icons/icons_extra_for_gilad_0003.png');
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: center;
+    width: 25px;
+    height: 25px;
+    position: absolute;
+   
+}
+
+
+.issue-refund:hover{
+	color:white;
+}
+
+.no-items-title{
+    font-size: 30px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translateX(-50%) translateY(-50%);
+    color: rgba(255,255,255,0.5);
+    font-family: 'HelveNueThinNormal';
+}
+
+.imos-content .info-box{
+    display: inline-block;
+    border: 1px solid white;
+    color: white;
+    text-align: center;
+    font-family: 'Montserrat';
+    vertical-align: top;
+    padding: 50px 0px;
+    width: 200px;
+    margin: 3px;
+}
+
+.imos-content .info-box .info-label{
+	font-size:20px;
+}
+
+
+.imos-content .info-box .info-amount{
+	 font-size: 40px;
+	 vertical-align: middle;
+}
+
+.imos-content .info-box .info-secondary{
+	font-size:16px;
+	color:rgba(255,255,255,0.5);
+}
+
+
+.imos-content .info-box div.info-secondary{
+	display:block;
+}
+
+li.imos-menu-option {
+    display: inline-block;
+    width: 200px;
+    height: 200px;
+    text-align: center;
+    font-family: Arial;
+    margin: 4px 0px;
+    font-size:16px;
+}
+
+li.imos-menu-option.big-sqr {
+
+    width: 300px;
+    height: 300px;
+
+}
+
+
+li.imos-menu-option.disabled{
+	opacity:0.3!important;
+	cursor:default!important;
+}
+
+li.imos-menu-option .icon{
+	height: 70%;
+    text-align: center;
+    position: relative;
+}
+
+.online-status{
+	width:5px;
+	height:5px;
+	border-radius:2px;
+}
+.online-status.online{
+	background-color:green;
+}
+.online-status.offline{
+	background-color:red;
+}
+
+
+#imos-popup-wrapper{
+	position:absolute;
+	top:0;
+	bottom:0;
+	left:0;
+	right:0;
+	background-color:rgba(0,0,0,0.4);
+	z-index: 12345;
+}
+
+#imos-popup-content{
+	/*border:1px solid white;*/
+    height: 80%;
+    width: 80%;
+    max-width:1000px;
+    max-height:600px;
+	position: absolute;
+    top: 50%;
+    left: 50%;
+    padding:2%;
+    transform: translateX(-50%) translateY(-50%);
+    color: white;
+    font-family: Arial;
+    overflow-y:auto;
+}
+
+
+#imos-popup-content.auto-width{
+	 width: auto;
+	 min-width:400px;
+}
+
+#imos-popup-content .imos-menu{
+	padding-bottom:0px;
+	height:20%;
+}
+
+
+
+.product-cms{
+	width:100%;
+	height:100%;
+}
+
+.product-cms .product-title{
+	font-size: 30px;
+}
+
+
+.product-cms .upper-details{
+	/*height:50%;*/
+}
+
+.product-cms .left-side, .product-cms .right-side{
+	width:50%;
+	height:80%;
+	display:inline-block;
+	float: left;
+}
+
+.product-cms .right-side{
+	max-width:400px;
+}
+
+.product-cms .left-side .main-product-image{
+    width: 80%;
+    height: 100%;
+    max-height: 300px;
+    background-size: contain;
+	background-repeat:no-repeat;
+	background-position:center;
+	margin: auto;
+}
+
+
+.product-cms input.boxed-element, .product-cms .boxed-element{
+	display:inline-block;
+	/*border:1px solid white;
+	box-sizing:border-box;
+	width: 150px;
+    padding: 5px;
+    margin: 5px;*/
+}
+
+.imos-save-btn.loading-state, .imos-close.loading-state {
+	background-image: url('/images/x_loader.gif');
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: center;
+    color: transparent;
+    background-size: 25px;
+    background-color: transparent;
+}
+
+
+.imos-close.disabled-btn{
+	pointer-events:none;
+	opacity:0.5;
+}
+
+
+
+
+
+#imos-popup-wrapper #imos-popup-content form label{
+	width: 175px;
+    height: 35px;
+    display: inline-block;
+}
+
+
+#imos-popup-wrapper #imos-popup-content form input{
+    background-color: transparent;
+    border: none;
+    border-bottom: 1px solid white;
+    padding: 10px 10px 0px 10px;
+    font-family: Arial;
+    color: white;
+}
+
+#imos-popup-wrapper #imos-popup-content form input[type='submit']{
+	padding: 5px 30px;
+    position: absolute;
+    bottom: 30px;
+    right: 30px;
+    color: #339966;
+    background-color: white;
+    border: 1px rgba(255,255,255,0.5) solid;
+    font-weight: bold;
+    font-family: Arial;
+}
+
+.store #imos-popup-wrapper #imos-popup-content form input[type='submit']{
+    color: #339966;
+}
+
+.communication #imos-popup-wrapper #imos-popup-content form input[type='submit']{
+    color: #666;
+}
+
+
+
+
+	
+
+#imos-popup-wrapper #imos-popup-content form select{
+    color: white;
+    background-color: transparent;
+    border: 1px solid white;
+    padding: 10px 0px;
+    width:185px;
+}
+
+.store #imos-popup-wrapper #imos-popup-content form select option{
+	 background-color: #339966;
+}  
+
+.communication #imos-popup-wrapper #imos-popup-content form select option{
+	 background-color: #666;
+}   
+ 
+
+
+#imos-popup-wrapper #imos-popup-content form input.validation-error{
+	border-bottom: 1px solid red;
+}
+
+
+#imos-popup-wrapper #imos-popup-content form.bank-mode [data-show-with='paypal-mode'],
+#imos-popup-wrapper #imos-popup-content form.bank-mode [data-show-with='stripe-mode']{
+	display:none;
+}
+
+#imos-popup-wrapper #imos-popup-content form.paypal-mode [data-show-with='bank-mode'], #imos-popup-wrapper #imos-popup-content form.paypal-mode [data-show-with='stripe-mode']{
+	display:none;
+}
+#imos-popup-wrapper #imos-popup-content form.stripe-mode [data-show-with='bank-mode'], 
+#imos-popup-wrapper #imos-popup-content form.stripe-mode [data-show-with='paypal-mode']{
+	display:none;
+}
+
+#imos-popup-wrapper #imos-popup-content form:not(.imos-mode) [data-show-with='imos-mode']{
+	display:none;
+}
+
+#imos-popup-wrapper #imos-popup-content form:not(.getresponse-mode) [data-show-with='getresponse-mode']{
+	display:none;
+}
+
+
+.imos-content .transfers-wrapper[data-mode=STRIPE] [data-hide-with=stripe],
+.imos-content .transfers-wrapper[data-mode=STRIPE] ~ [data-hide-with=stripe]  {
+    display:none;
+}
+
+
+
+#imos-popup-wrapper #imos-popup-content form:not(.aweber-mode) [data-show-with='aweber-mode']{
+	display:none;
+}
+
+#imos-popup-wrapper #imos-popup-content form.imos-mode [data-hide-with~='imos-mode'], #imos-popup-wrapper #imos-popup-content form.aweber-mode [data-hide-with~='aweber-mode']{
+	display:none;
+}
+
+.next-deposite{
+    text-align: left;
+    padding-bottom: 5px;
+    margin-top: 30px;
+    margin-bottom: 30px;
+    color: white;
+    font-family: Arial;
+    font-size: 14px;
+}
+
+
+#setup-bank-account-btn, #setup-newsletter-btn{
+	border:1px solid white;
+	padding:5px 20px;
+	border-radius:25px;
+	display:inline-block;
+	margin: 10px 0px;
+    padding-bottom:7px;
+}
+
+.no-mailing-list .refresh-mailing-list{
+	display:inline-block;
+}
+
+.no-mailing-list #newsletter-list_id{
+	display:none;
+}
+
+.refresh-mailing-list{
+	display:none;
+	background-color:#333;
+	width: 165px;
+    padding: 10px;
+    text-align: center;
+}

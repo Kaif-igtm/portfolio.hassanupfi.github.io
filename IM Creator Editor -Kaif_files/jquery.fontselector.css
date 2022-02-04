@@ -1,0 +1,63 @@
+
+
+.fontSelect {
+	position: relative;
+	padding: 3px;
+	height: 28px;
+	line-height: 28px;
+	cursor: pointer;
+	margin: 3px;
+	width: 180px;
+	border: 1px solid #2A2A2A;
+}
+
+.fontSelect span {
+	overflow: hidden;
+	margin-left: 5px;
+	color: white;
+}
+
+.fontSelect .arrow-down {
+	position: absolute;
+	right: 10px;
+	top: 14px;
+	border-left: 6px solid transparent;
+	border-right: 6px solid transparent;
+	border-top: 6px solid #AAA;
+}
+
+.fontSelectUl {
+	list-style: none;
+	width: 190px;
+	background: #1F1F1F;
+	position: absolute;
+	left: 0;
+	top: 35px;
+}
+
+.fontSelectUl li {
+	height: 24px;
+	line-height: 24px;
+	overflow: hidden;
+	cursor: pointer;
+	padding: 0 10px;
+	display:block;
+	font-size: 20px;
+	color: white;
+	border-left: 1px solid #2A2A2A;
+	border-right: 1px solid #2A2A2A;
+}
+
+.fontSelectUl li:last-child {
+	-webkit-border-radius: 0 0 4px 4px;
+	-moz-border-radius: 0 0 4px 4px;
+	border-radius: 0 0 4px 4px;
+
+	border-bottom: 1px solid #2A2A2A;
+}
+
+.fontSelectUl li:hover {
+	background: #DDD;
+}
+
+

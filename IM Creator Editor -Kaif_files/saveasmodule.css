@@ -1,0 +1,111 @@
+#saveas-module{
+	color:white;
+	position:fixed;
+	left:50%;
+	top:40%;
+	font-family:HelveNueThinNormal;
+}
+
+
+#saveas-module.show-save .saveas-mode{
+	display:none;
+}
+
+#saveas-module.show-saveas .save-mode{
+	display:none;
+}
+
+#saveas-module .saveas-step{
+	display:none;
+}
+
+#saveas-module .saveas-title{
+	font-size:50px;
+	padding-bottom: 30px;
+}
+
+#saveas-module .saveas-text{
+	font-size:18px;
+	font-family:Arial;
+}
+
+
+#saveas-module select{
+	background-color: black;
+	width: 500px;
+	text-align: center;
+	border: 1px solid grey;
+	padding: 20px;
+	outline: 0px;
+	color: white;
+	font-size: 25px;
+	font-family: HelveNueThinNormal;
+	display: block;
+	margin-bottom:30px;
+	margin-top:30px;
+}
+
+#saveas-module select option {
+	/*padding:20px!important;*/
+}
+
+#saveas-module input{
+	background-color:black;
+	font-size:40px;
+	color:white;
+	border:1px solid #555;
+	display:block;
+	font-family:HelveNueThinNormal;
+}
+
+
+#saveas-module input.small-input{
+	width:100px;
+	text-align: center;
+
+}
+
+#saveas-module .saveas-ui{
+	display:none;
+}
+
+#saveas-module .saveas-back{
+	position:fixed;
+	top:20px;
+	left:20px;
+	color:white;
+	font-size:20px;
+}
+
+#saveas-module .grey-title{
+	color:grey;
+}
+
+#saveas-module .saveas-back img{
+	vertical-align: middle;
+	width: 60px;
+}
+
+
+
+
+#saveas-module .goto-btn{
+	font-family:HelveNueThinNormal;
+	border: solid 2px #333;
+	padding :5px 10px;
+	color:white;
+	display:inline-block;
+	margin: 15px 0px;
+}
+
+#saveas-module .main-btn{
+	display: inline-block;
+	background-color: #00CC00;
+	float: right;
+	padding: 10px 50px;
+	font-size: 24px;
+	color: white;
+	width: 120px;
+	text-align: center;
+	margin-top:6px;
+}

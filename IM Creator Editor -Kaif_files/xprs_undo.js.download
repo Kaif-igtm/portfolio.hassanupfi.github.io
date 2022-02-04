@@ -1,0 +1,402 @@
+XPRSUndo = {};
+XPRSUndo.originalValues = {};
+XPRSUndo.historyQueue = {};
+XPRSUndo.preformedQueue = {};
+XPRSUndo.historyQueueDom = $();
+XPRSUndo.supportedActions = {"REMOVE-CHILD":true,
+							 "REMOVE-MULTI":true,
+							 "ADD-CHILD":true,
+							 "MOVE-ELEMENT":true,
+							 "MOVE-ITEM":true,
+							 "MOVE-STRIPE":true,
+							 "CHANGE-TEXT":true
+							 };
+							
+
+XPRSUndo.BindUndo = function(){
+	$(document).keyup(function(e){
+		//ctrl + z
+		if( e.which === 90 && e.ctrlKey ){
+			if ($("input:focus, .showing-module, .edit-on, .new-page-blocker, .ace_focus").length == 0){
+			XPRSUndo.showHistory();
+			XPRSUndo.undo();
+			}
+		}
+		//ctrl + b
+		if (e.keyCode == 66 && e.ctrlKey){
+			XPRSUndo.showHistory();
+		}
+	}); 
+	XPRSUndo.createHistoryDom();
+};
+
+
+XPRSUndo.createHistoryDom = function(){
+	var currentPage = XPRSUndo.getCurrentPage();
+	XPRSUndo.historyQueueDom = $("<div />").attr("id","history-queue").attr("data-page",currentPage).hide();
+	var historyTitle = $("<div />").text("History").addClass("history-title");
+	var closeHistoryBtn = $("<span />").addClass("clickable close-history-btn").text("X");
+	closeHistoryBtn.click(function(e){
+		e.stopPropagation();
+		XPRSUndo.historyQueueDom.hide();
+	});
+	historyTitle.append(closeHistoryBtn);
+	XPRSUndo.historyQueueDom.append(historyTitle);
+	var actionsDomUl = $("<ul />").addClass("available-undo-actions");
+	XPRSUndo.historyQueueDom.append(actionsDomUl);
+	$("body").append(XPRSUndo.historyQueueDom);
+};
+
+
+XPRSUndo.showHistory = function(){
+	if (typeof VueEditor != "undefined"){
+		//do not show history on undo
+		return;
+	}
+	if (!(XPRSUndo.historyQueueDom.is(":visible"))){
+		XPRSUndo.historyQueueDom.show();
+	}
+};
+
+XPRSUndo.pushHistoryEntry = function(action){
+	var actionPrettyName = XPRSUndo.getActionPrettyName(action);
+	if (typeof action.name != "string"){
+		action.name = action.name.action_name;
+	}
+	action.prettyName = actionPrettyName;
+	if (action.name in XPRSUndo.supportedActions){
+		var currentPage = XPRSUndo.getCurrentPage();
+		var historyQueueDomUl =  XPRSUndo.historyQueueDom.find(".available-undo-actions");
+		var actionDomLi = $("<li />");
+		actionDomLi.text(actionPrettyName);
+		var undoBtn = $("<i />").addClass("undo-action fa fa-reply");
+		actionDomLi.click(XPRSUndo.undo);
+		actionDomLi.append(undoBtn);
+		historyQueueDomUl.prepend(actionDomLi);
+		if (!(currentPage in XPRSUndo.historyQueue)){
+			XPRSUndo.historyQueue[currentPage] = [];
+		}
+		XPRSUndo.historyQueue[currentPage].push(action);
+		if (typeof VueEditor != "undefined"){
+			VueEditor.$store.commit("PUSH_UNDO_ACTION",action);
+		}
+		XPRSHelper.updateParent({"deliver_to":"parent", "action":"update-undo-state", "available_action":actionPrettyName});
+	}
+}; 
+
+
+XPRSUndo.getActionPrettyName = function(action){
+	var originalActionName = action.name;
+	if (typeof originalActionName == "string"){
+		return originalActionName.toLowerCase().replace("-"," ");
+	}
+	return originalActionName.pretty_name;
+};
+
+XPRSUndo.popHistoryEntry = function(){
+	var actionToUndo;
+	var currentPage = XPRSUndo.getCurrentPage();
+	var queueNotEmpty = currentPage in XPRSUndo.historyQueue && XPRSUndo.historyQueue[currentPage].length > 0;
+	if (!XPRSUndo.undoInProgress() && queueNotEmpty ){
+		actionToUndo = XPRSUndo.historyQueue[currentPage].pop();
+		if (typeof actionToUndo != "undefined"){
+			var historyQueueDomUl =  XPRSUndo.historyQueueDom.find(".available-undo-actions");
+			historyQueueDomUl.children("li").first().addClass("in-progress");
+		}
+		if (typeof VueEditor != "undefined"){
+			VueEditor.$store.commit("POP_UNDO_ACTION");
+		}
+	}
+	return actionToUndo;
+};
+
+XPRSUndo.undoInProgress = function(){
+	var historyQueueDomUl =  XPRSUndo.historyQueueDom.find(".available-undo-actions");
+	return (historyQueueDomUl.find("li.in-progress").length > 0)
+};
+
+
+
+XPRSUndo.undo = function(){
+	var actionToUndo = XPRSUndo.popHistoryEntry();
+	if (actionToUndo){
+		switch(actionToUndo.name){
+			case "REMOVE-CHILD":
+				XPRSUndo.undoRemoveChild(actionToUndo);
+				break;
+			case "REMOVE-MULTI":
+				XPRSUndo.undoMultiRemoveChild(actionToUndo);
+				break;
+			case "ADD-CHILD":
+				XPRSUndo.undoAddChild(actionToUndo);
+				break;
+			case "MOVE-ELEMENT":
+				XPRSUndo.undoMoveElement(actionToUndo);
+				break;
+			case "MOVE-ITEM":
+			case "MOVE-STRIPE":
+				XPRSUndo.undoMoveChild(actionToUndo);
+				break;
+			case "CHANGE-TEXT":
+				XPRSUndo.undoTextChange(actionToUndo);
+				break;
+		}
+	}
+};
+
+
+XPRSUndo.undoComplete = function(){
+	var historyQueueDomUl =  XPRSUndo.historyQueueDom.find(".available-undo-actions");
+	var currentPage = XPRSUndo.getCurrentPage();
+	if (XPRSUndo.historyQueue[currentPage].length == 0){
+		XPRSHelper.updateParent({"deliver_to":"parent", "action":"disable-undo-state"});
+	}else{
+		var nextActionName = historyQueueDomUl.children("li").first().text()
+		XPRSHelper.updateParent({"deliver_to":"parent", "action":"update-undo-state", "available_action":nextActionName});
+	}
+	
+	historyQueueDomUl.find("li.in-progress").remove();
+
+};
+
+
+XPRSUndo.undoMoveElement = function(actionToUndo){
+	var clickedElement = $("#" + actionToUndo.params.vbid);
+	var direction = (actionToUndo.params.direction == "down") ? "up" : "down";
+	EditorHelper.moveElement(clickedElement,direction);
+	actionToUndo.params.direction = direction;
+	XPRSHelper.SAFEPOST("/move_element",actionToUndo.params,actionToUndo.params.parent,"MOVE-ELEMENT-NO-UNDO",function(res){
+		if ("NATIVE_ORDER" in res){
+			EditorHelper.handleNativeOrderChange(clickedElement.closest(".master.item-box"), res["NATIVE_ORDER"]);
+		}
+		XPRSUndo.undoComplete();
+	});
+};
+
+XPRSUndo.undoMoveChild = function(actionToUndo){
+	var holder = $("#" + actionToUndo.params.vbid);
+	var stripe = holder.closest(".master.item-box");
+	var direction = (actionToUndo.params.direction == "down") ? "up" : "down";
+	EditorHelper.handleMoveChild(holder,direction);
+	actionToUndo.params.direction = direction;
+	XPRSHelper.SAFEPOST("/move_child",{"parent":actionToUndo.params.parent , "vbid": actionToUndo.params.vbid,"direction":direction,"stripe_id":stripe.attr("id")},actionToUndo.params.parent,"MOVE-CHILD-NO-UNDO",function(){
+		XPRSUndo.undoComplete();
+	});
+};
+
+XPRSUndo.undoTextChange = function(actionToUndo){
+	var elementId = actionToUndo.params.element_id;
+	var parentId = actionToUndo.params.parent_id;
+	var clickedElement = $("#" + actionToUndo.params.parent_id + " #" + actionToUndo.params.element_id);
+	var oldValue = actionToUndo.params.old_prop_value;
+	var oldpropName = actionToUndo.params.old_prop_name;
+	var stripe = clickedElement.closest(".master.item-box");
+		if (oldValue.indexOf("|||") != -1){
+			clickedElement.html(oldValue.substring(0, oldValue.indexOf("|||")));	
+		}else{
+			clickedElement.html(oldValue);
+		}
+		SpimeEngine.ArrangeHolder(stripe);
+		var stripeId = stripe.attr("id");
+		XPRSHelper.SAFEPOST("/update_element_content",{element_id:elementId, parent_id:parentId, prop_name:oldpropName, prop_value:oldValue, "stripe_id":stripeId},parentId,"CHANGE-TEXT-NO-UNDO",function(){
+			XPRSUndo.undoComplete();
+		});
+};
+
+XPRSUndo.undoRemoveChild = function(actionToUndo){
+	//This is a page. ask before restoring
+	if (actionToUndo.params.parent.indexOf("-PAGES") != -1){
+		XPRSHelper.xprsAlert("The last action we tracked was a deletion of a page, do you want to restore the page?",{title: "Restore deleted page?", showCancelButton: true,confirmButtonText:"Yes",cancelButtonText:"No","callbackfunc":function(isConfirm){
+			if(isConfirm){
+				XPRSHelper.GET("/restore_from_recycle_bin/" + actionToUndo.params.parent + "/" + actionToUndo.params.child,{"stripe_id":actionToUndo.params.stripe_id},function(restoredObjects){
+					setTimeout(function(){
+						EditorHelper.showAddPageMenu("manage-pages",{});
+					},600);
+					XPRSUndo.undoComplete();
+				});
+			}else{
+				XPRSUndo.undoComplete();
+			}
+		}});
+	}else{
+		XPRSHelper.GET("/restore_from_recycle_bin/" + actionToUndo.params.parent + "/" + actionToUndo.params.child,{"stripe_id":actionToUndo.params.stripe_id},function(restoredObjects){
+			for (i in restoredObjects){
+				var restoredObj = restoredObjects[i];
+				var entryType = Object.keys(restoredObj)[0];
+				var restoredObjParent = $("#" + actionToUndo.params.parent);
+				var isElement = entryType != "CHILD";
+				var isItem = restoredObjParent.is(".master.item-box");
+				var isStripe = restoredObjParent.is(".master.container");
+				//This is an Element
+				if (isElement){
+					XPRSUndo.restoreElement(restoredObj);
+				}else if (isItem){
+					XPRSUndo.restoreItem(restoredObj);
+				}else if (isStripe){ 
+					XPRSUndo.restoreStripe(restoredObj);
+				}else{
+				}
+			}
+		},"json");
+	}
+};
+
+
+
+XPRSUndo.undoAddChild = function(actionToUndo){
+	var childId = actionToUndo.params.vbid;
+	var parentId = actionToUndo.params.parent_vbid;
+	var stripeId = actionToUndo.params.stripe_id;
+	EditorHelper.handleDelete({"vbid":childId});
+	XPRSHelper.SAFEPOST("/remove_child",{"parent":parentId , "child": childId,"stripe_id":stripeId},parentId,"REMOVE-CHILD-NO-UNDO",function() {
+		XPRSUndo.undoComplete();
+	});
+};
+
+XPRSUndo.undoMultiRemoveChild = function(actionToUndo){
+	var elementsToRestore = JSON.parse(actionToUndo.params.elemets_ids);
+	var allRestored = 0
+	for(var p in elementsToRestore){
+		XPRSHelper.GET("/restore_from_recycle_bin/" + p + "/" + elementsToRestore[p],{"stripe_id":actionToUndo.params.stripe_id},function(restoredObjects){
+			var restoredObj = restoredObjects[0];
+			XPRSUndo.restoreElement(restoredObj);
+			allRestored++;
+			if (allRestored == elementsToRestore.length){
+				XPRSUndo.undoComplete();
+			}
+		},"json");
+	}
+};
+ 
+
+
+XPRSUndo.restoreElement = function(restoredObj){
+	var entryType = Object.keys(restoredObj)[0];
+	var restoredId = restoredObj[entryType]["VBID"]
+	var addAfterId = restoredObj[entryType]["PREV_ID"];
+	if ("PREV_ID" in restoredObj[entryType]){
+		EditorHelper.scrollToItem({"vbid":restoredObj[entryType]["PARENT_ID"],"if_not_in_view":true,"scroll_speed":1000},function(){
+			var item = $("#" + restoredObj[entryType]["PARENT_ID"]);
+			var elementId = restoredId;
+			var itemParent = EditorHelper.getHolderParent(item);
+			var is_blocks = (item.is(".sub.item-box") && item.find(".blocks_layout").length > 0);
+			var is_draggable_pic = (entryType == "DRAGGABLE_PIC");
+			if ( (entryType == "PIC" || is_draggable_pic) && !is_blocks ){
+				var is_stripe_bg = ("ROLE" in restoredObj[entryType] && restoredObj[entryType]['ROLE'] == "STRIPE_BACKGROUND");
+				
+				
+				var is_bg_pic = ("ROLE" in restoredObj[entryType] && restoredObj[entryType]['ROLE'] == "BACKGROUND_IMAGE");
+				var is_inline_pic = !is_stripe_bg && !is_draggable_pic && !is_bg_pic && !is_blocks;
+				if (is_draggable_pic){
+					elementObj = {}
+					elementObj["PREVIEW"] = restoredObj;
+					XPRSHelper.GET("/get_template",{element_type:"PREVIEW_"+entryType ,element_data:JSON.stringify(elementObj),template_src:"xprs/preview/"} ,function(elementHtml){
+						var dataDiv = $(elementHtml);
+						EditorHelper.overrideLinks(dataDiv);
+						EditorHelper.addLeftClickMenu(dataDiv); 
+						item.find(".item-details.preview-content-wrapper .draggable-div-holder").append(dataDiv);
+						dataDiv.hide();
+						dataDiv.fadeIn();
+						XPRSUndo.undoComplete();
+					});
+					return;
+				}
+				EditorHelper.handleReplacePic({	
+					"update_editor":false,
+					"parent_id":restoredObj[entryType]["PARENT_ID"],
+					"url" : restoredObj[entryType]["URL"],
+					"origwidth" : restoredObj[entryType]["ORIG_WIDTH"],
+					"origheight" :restoredObj[entryType]["ORIG_HEIGHT"],
+					"id" : "no-image",
+					"update_id_to":restoredObj[entryType]["VBID"],
+					"is_stripe_bg":is_stripe_bg,
+					"is_inline_pic":is_inline_pic,
+					"is_blocks":is_blocks,
+					"is_draggable_pic":is_draggable_pic,
+					"is_bg_pic":is_bg_pic,
+					"is_body":false,
+					"is_menufied_preview_links":false
+				});
+				XPRSUndo.undoComplete();
+				return;
+			}else{
+				var templateSrc = "xprs/preview/";
+				var elementPlaceHolder = EditorHelper.getElementPlaceholder(entryType,item,addAfterId);
+				var itemLayout = item.find(".layout-settings").attr("data-type")
+				if (itemLayout == "multi" ){
+					templateSrc = "xprs/ordered/";
+				}
+				if (is_blocks){
+					templateSrc = "xprs/blocks/";
+				}
+				elementObj = {}
+				elementObj["PREVIEW"] = restoredObj;
+				XPRSHelper.GET("/get_template",{element_type:"PREVIEW_"+entryType ,element_data:JSON.stringify(elementObj),template_src:templateSrc,item_layout:itemLayout} ,function(elementHtml){
+					EditorHelper.appendElementToItem(item,elementHtml,elementId,elementPlaceHolder,entryType,itemParent);
+					XPRSUndo.undoComplete();
+				});
+			}
+		});
+	}
+};
+
+
+XPRSUndo.restoreItem = function(restoredObj){
+	var entryType = Object.keys(restoredObj)[0];
+	var restoredId = restoredObj[entryType]["VBID"]
+	var addAfterId = restoredObj[entryType]["PREV_ID"];
+	var addedHolder = $("<div />").addClass("sub item-box").attr("id",restoredId);
+	var stripe = $("#" + restoredObj[entryType]["PARENT_ID"]);
+	var addAfterMe = stripe.find(".sub.item-box:visible").last();
+	if (addAfterId){
+		addAfterMe = $(".sub.item-box#"+addAfterId);
+	}
+	if (addAfterMe.is(".stripe-header")){
+		stripe.find("#items-holder").prepend(addedHolder);
+	}else{
+		addedHolder.insertAfter(addAfterMe);
+	}
+	
+	var getPartParams = {"vbid":restoredId,"root_id":EditorHelper.getRootId(),"no_blocking_div":true}
+	if (stripe && stripe.find(".sub.container.matrix").length > 0){
+		if (stripe.find(".multi_layout").length > 0){
+			getPartParams["order_holder_id"] = stripe.attr("id");
+		}
+	}
+	EditorHelper.reloadPart(getPartParams,function(){
+		XPRSUndo.undoComplete();
+	});
+	EditorHelper.scrollToItem({"vbid":restoredId,"top_padding":100,"if_not_in_view":true,"scroll_speed":1000})
+};
+
+
+XPRSUndo.restoreStripe = function(restoredObj){
+	$("#empty-stripe").remove();
+	var entryType = Object.keys(restoredObj)[0];
+	var restoredId = restoredObj[entryType]["VBID"]
+	var presetType = restoredObj[entryType]["TYPE"];
+	var addAfterId = restoredObj[entryType]["PREV_ID"];
+	var addedHolder = $("<div />").addClass("master item-box animated-height").attr("id",restoredId).css("background-color","black");
+	var addAfterMe = $(".master.item-box:visible").last().next(".control-handle");
+	if (addAfterId){
+		addAfterMe = $(".master.item-box#"+addAfterId).next(".control-handle");
+	}
+	addedHolder.insertAfter(addAfterMe);
+	addedHolder.attr("data-preset-type-id",presetType);
+	var params = {};
+	params["vbid"] = restoredId;
+	params["parent_vbid"] = restoredObj[entryType]["PARENT_ID"];
+	EditorHelper.reloadPart(params,function(){
+			XPRSUndo.undoComplete();
+	});
+	EditorHelper.scrollToItem({"vbid":restoredId,"if_not_in_view":true,"scroll_speed":1000});
+};
+
+
+
+
+
+
+XPRSUndo.getCurrentPage = function(){
+	return $(".master.container").attr("id");
+};

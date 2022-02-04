@@ -1,0 +1,163 @@
+var XPRSIMOS = {};
+XPRSIMOS.osId = "";
+XPRSIMOS.rootId = "";
+XPRSIMOS.imosServer = "";
+XPRSIMOS.helpSlideshowInterval = "";
+
+
+
+XPRSIMOS.start = function(relevantContext,section){
+	$(document).ready(function() {
+		XPRSIMOS.rootId = $("body").attr("data-root-id");
+		var cmsWindow = $(".imos-window");
+		XPRSIMOS.initMenu(cmsWindow);
+		XPRSIMOS.loadImosDashboardPage(cmsWindow,"traffic",{});
+		if (typeof EditorHelper == "undefined"){
+			$(window).bind("resize",XPRSIMOS.arrange);
+		}
+	});
+};
+
+XPRSIMOS.initMenu = function(cmsWindow){
+	var hamburgerMenu = cmsWindow.find(".imos-hamburger");
+	var imosStart = cmsWindow.find(".imos-start");
+	hamburgerMenu.unbind("click").bind("click",function(){
+		var currentVisibleSlide = imosStart.find(".imos-welcome-step:visible");
+		if (imosStart.is(":visible")){
+			if (currentVisibleSlide.length > 0){
+				if (currentVisibleSlide.attr("data-step") == "0"){
+					cmsWindow.css({"overflow-y":"auto"});
+					imosStart.fadeOut();
+					cmsWindow.removeClass("showing-menu");
+				}else{
+					clearInterval(XPRSIMOS.helpSlideshowInterval);
+					var nextSlide  = $(".imos-welcome-step[data-step='0']");
+					currentVisibleSlide.fadeOut(function(){
+						nextSlide.fadeIn();
+					});
+				}
+			}else{
+				cmsWindow.css({"overflow-y":"auto"});
+				imosStart.fadeOut();
+				cmsWindow.removeClass("showing-menu");
+			}
+		}else{
+			imosStart.find(".imos-welcome-step").hide();
+			imosStart.find(".imos-welcome-step[data-step='0']").show();
+			cmsWindow.css({"overflow-y":"hidden"});
+			imosStart.fadeIn();
+			cmsWindow.addClass("showing-menu");
+		}
+	});
+	
+	var helpBtn = cmsWindow.find(".imos-help");
+	helpBtn.unbind("click").bind("click",function(){
+		var currentVisibleSlide = imosStart.find(".imos-welcome-step:visible");
+		if (imosStart.is(":visible")){
+			if (currentVisibleSlide.length > 0){
+				if (currentVisibleSlide.attr("data-step") == "0"){
+					var nextSlide  = $(".imos-welcome-step[data-step='1']");
+					currentVisibleSlide.fadeOut(function(){
+						nextSlide.fadeIn();
+						XPRSIMOS.startSlideShow(cmsWindow)
+					});
+				}else{
+					cmsWindow.css({"overflow-y":"auto"});
+					imosStart.fadeOut();
+					cmsWindow.removeClass("showing-menu");
+					clearInterval(XPRSIMOS.helpSlideshowInterval);
+				}
+			}else{
+				cmsWindow.css({"overflow-y":"auto"});
+				imosStart.fadeOut();
+				cmsWindow.removeClass("showing-menu");
+				clearInterval(XPRSIMOS.helpSlideshowInterval);
+			}
+		}else{
+			cmsWindow.find(".imos-welcome-step").hide();
+			cmsWindow.find(".imos-welcome-step[data-step='1']").show()
+			XPRSIMOS.startSlideShow(cmsWindow);
+			cmsWindow.css({"overflow-y":"hidden"});
+			imosStart.fadeIn();
+			cmsWindow.addClass("showing-menu");
+		}
+
+	});
+	
+	cmsWindow.find(".imos-menu-option:not(.disabled)").unbind("click").bind("click",function(){
+		if (typeof XPRSTraffic !="undefined"){
+			XPRSTraffic.unload();
+		}
+		XPRSIMOS.loadImosDashboardPage(cmsWindow,$(this).attr("id"))
+		cmsWindow.find(".imos-start").fadeOut();
+		cmsWindow.find(".imos-hamburger").removeClass("is-active");
+		cmsWindow.removeClass("showing-menu");
+		cmsWindow.css({"overflow-y":"auto"});
+	});
+};
+
+
+XPRSIMOS.startSlideShow = function(cmsWindow){
+	XPRSIMOS.helpSlideshowInterval = setInterval(function(){
+		var allSlides = cmsWindow.find(".imos-welcome-step");
+		var currentVisibleSlide = cmsWindow.find(".imos-welcome-step:visible");
+		var currentVisibleSlideNum = parseInt(currentVisibleSlide.attr("data-step"));
+		var nextSlideNum = currentVisibleSlideNum + 1;
+		if (nextSlideNum > allSlides.length - 1 ){
+			var nextSlide  = $(".imos-welcome-step[data-step='0']");
+			currentVisibleSlide.fadeOut(function(){
+				nextSlide.fadeIn();
+			});
+			clearInterval(XPRSIMOS.helpSlideshowInterval);
+		}else{
+			var nextSlide  = $(".imos-welcome-step[data-step='" +  nextSlideNum+ "']");
+			currentVisibleSlide.fadeOut(function(){
+				nextSlide.fadeIn();
+			});
+		}
+	},3000);
+};
+
+
+XPRSIMOS.arrange = function(){
+	var visibleDigestWrapper = $(".digest-wrapper:visible");
+	if (visibleDigestWrapper.length > 0){
+		var verticalSpaceAvailable =  $(".imos-window").height() - $(".imos-header").height() - $(".imos-menu").height() - parseInt($(".imos-menu").css("padding-bottom"))*0.8;
+		var middlePos = verticalSpaceAvailable/2 - visibleDigestWrapper.outerHeight(true)/2;
+		var newTop = $(".imos-header").height() + $(".imos-menu").height()  - parseInt($(".imos-menu").css("padding-bottom"))*0.8 + middlePos;
+		visibleDigestWrapper.css({"top":newTop});
+	}
+}
+
+
+XPRSIMOS.loadImosDashboardPage = function(cmsWindow,mode,params){
+	cmsWindow.removeClass("store traffic communication")
+	cmsWindow.addClass(mode);
+	var cmsContent = cmsWindow.find(".imos-content");
+	$(".cms-content").empty();
+	if (mode == "store"){
+		cmsContent.load("/store/" + XPRSIMOS.rootId,function(){
+			XPRSStore.start(cmsContent);
+		});
+	}
+	
+	if (mode == "traffic"){
+		cmsContent.load("/traffic/" + XPRSIMOS.rootId,function(){
+			XPRSTraffic.start(cmsContent);
+		});
+	}
+	
+	if (mode == "communication"){
+		cmsContent.load("/communication/" + XPRSIMOS.rootId,function(){
+			XPRSCommunication.start(cmsContent);
+		});
+	}
+};
+
+
+
+
+
+
+
+

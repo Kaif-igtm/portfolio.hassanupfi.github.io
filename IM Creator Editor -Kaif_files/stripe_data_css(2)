@@ -1,0 +1,14 @@
+/******************************************************************************************************
+ *                                              STRIPE DATA STYLE
+ *                                 	 
+ ******************************************************************************************************/
+
+ 
+ #vbid-bcf52a15-unwb3aiv.master.item-box    {
+	padding-top: 50px;
+	padding-bottom: 30px;
+	min-height: 202px;
+} 
+ #vbid-bcf52a15-unwb3aiv.item-box > .item-wrapper    {
+	max-width: 1000px;
+}

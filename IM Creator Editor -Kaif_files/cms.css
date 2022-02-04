@@ -1,0 +1,497 @@
+
+th input, th textarea{
+	width:100%;
+	color: #666;
+}
+
+.items-table{
+	margin:auto;
+	border-spacing: 0px;
+	width:100%;
+	text-align:left;
+}
+
+.items-table input, .items-table textarea , .product-cms input, .product-cms textarea{
+    border: none;
+    background-color: transparent;
+    overflow: hidden;
+    font-family:Arial;
+    color:rgba(255,255,255,0.5);
+ }
+ 
+ .product-cms input, .product-cms textarea{
+  	color:white;
+  }
+ 
+ .product-cms textarea{
+ 	resize: none;
+ }
+ 
+ .items-table textarea{
+ 	resize: none;
+ }
+ 
+ .items-table .cms-field{
+    border: none;
+    font-family:Arial;
+    color:rgba(255,255,255,0.5);
+ }
+ 
+ 
+ 
+ .items-table .actions{
+ 	padding-left:25px;
+ }
+ 
+ .items-table .actions + .item-thumb{
+ 	padding-left: 0px;
+ }
+ 
+
+.items-table .item-thumb{
+	text-align:center;
+	width: 80px;
+	padding-left: 25px;
+}
+
+.product-price input.element, .product-sku input.element {
+    width: 50px;
+}
+
+
+.items-table td{
+	padding: 10px;
+	border-top: 1px rgba(255,255,255,0.5) solid;
+}
+
+.items-table .item-thumb .element{
+	width:50px;
+	height:50px;
+	background-size:cover;
+	background-repeat:no-repeat;
+	background-position:center;
+	display: inline-block;
+	margin: 5px;
+	background-color: #333;
+}
+
+.element.dirty{
+	background-color:rgba(0,0,0,0.5);
+}
+
+.row .actions i.delete-btn:hover{
+	color:red;
+}
+
+.qq-upload-button-hover:not(#file-link-btn){
+	background-color:transparent!important;
+}
+
+.items-table .item:last-child .down-btn , .items-table .item:first-child .up-btn{
+	display:none;
+}
+
+.item[data-child-type='STRIPE_HEADER']{
+	/*display:none;*/
+}
+
+
+.item.sold-out .product-price input{
+	text-decoration: line-through;	
+}
+
+
+.add-item-btn{
+    text-align: center;
+    padding: 10px;
+    border: 1px solid rgba(255,255,255,0.5);
+    color:rgba(255,255,255,0.5);
+    margin: 10px 10px;
+}
+
+.row .actions{
+	text-align: center;
+}
+
+
+.disable-actions .row:not(.cloned):hover .on-hover, .disable-actions .row:not(.cloned):hover .actions i{
+	color:rgba(255,255,255,0.3);
+	opacity:0.5;
+}
+
+.row .actions i ,.row .on-hover {
+	opacity:0;
+	color:white;
+}
+
+.row:not(.cloned):hover .actions i, .row:not(.cloned):hover .on-hover{
+	opacity:1;
+}
+
+.items-table-footer{
+	text-align:center;
+}
+
+
+
+
+
+.cms-content .product-title , .cms-content .product-price, .cms-content .product-price input {
+	color:white;
+}
+
+[data-store-default-currency=USD] .append-currency::before , [data-currency=USD].override-currency .append-currency::before { 
+    content: "$";
+}
+
+[data-store-default-currency=EUR] .append-currency::before, [data-currency=EUR].override-currency .append-currency::before { 
+    content: "\20ac";
+}
+
+[data-store-default-currency=GBP] .append-currency::before, [data-currency=GBP].override-currency .append-currency::before { 
+    content: "\00a3";
+}
+
+[data-store-default-currency=SEK] .append-currency::after , [data-currency=SEK].override-currency .append-currency::after { 
+    content: "Kr";
+}
+
+[data-store-default-currency=NOK] .append-currency::after , [data-currency=NOK].override-currency .append-currency::after { 
+    content: "kr";
+}
+
+[data-store-default-currency=VND] .append-currency::after , [data-currency=VND].override-currency .append-currency::after { 
+    content: "₫";
+}
+
+[data-store-default-currency=NPR] .append-currency::after , [data-currency=NPR].override-currency .append-currency::after { 
+    content: "Re.";
+}
+
+[data-store-default-currency=HUF] .append-currency::after , [data-currency=HUF].override-currency .append-currency::after { 
+    content: "Ft";
+}
+
+[data-store-default-currency=RON] .append-currency::after , [data-currency=RON].override-currency .append-currency::after { 
+    content: "lei";
+}
+
+[data-store-default-currency=CAD] .append-currency::before , [data-currency=CAD].override-currency .append-currency::before { 
+    content: "$(cad)";
+}
+
+[data-store-default-currency=AUD] .append-currency::before , [data-currency=AUD].override-currency .append-currency::before { 
+    content: "$";
+}
+
+[data-store-default-currency=AUD] .append-currency::after , [data-currency=AUD].override-currency .append-currency::after { 
+    content: "AUD";
+}
+
+[data-store-default-currency=BRL] .append-currency::before , [data-currency=BRL].override-currency .append-currency::before { 
+    content: "R$";
+}
+
+
+[data-store-default-currency=JPY] .append-currency::before , [data-currency=JPY].override-currency .append-currency::before { 
+    content: "\00a5";
+}
+
+
+[data-store-default-currency=NZD] .append-currency::before , [data-currency=NZD].override-currency .append-currency::before { 
+    content: "NZ$";
+}
+
+
+[data-store-default-currency=MYR] .append-currency::before , [data-currency=MYR].override-currency .append-currency::before{ 
+    content: "RM";
+}
+
+[data-store-default-currency=SGD] .append-currency::before , [data-currency=SGD].override-currency .append-currency::before{ 
+    content: "S$";
+}
+
+
+[data-store-default-currency=ZAR] .append-currency::before , [data-currency=ZAR].override-currency .append-currency::before{ 
+    content: "R";
+}
+
+[data-store-default-currency=INR] .append-currency::before , [data-currency=INR].override-currency .append-currency::before{ 
+    content: "\20b9";
+}
+
+[data-store-default-currency=NGN] .append-currency::before , [data-currency=NGN].override-currency .append-currency::before{ 
+    content: "\20a6 ";
+}
+
+[data-store-default-currency=TRY] .append-currency::before , [data-currency=TRY].override-currency .append-currency::before{ 
+    content: "\20ba";
+}
+
+[data-store-default-currency=CHF] .append-currency::before , [data-currency=CHF].override-currency .append-currency::before{ 
+    content: "CHF";
+}
+
+[data-store-default-currency=AED] .append-currency::after , [data-currency=AED].override-currency .append-currency::after { 
+    content: "\062f.\0625";
+}
+
+[data-store-default-currency=PKR] .append-currency::after , [data-currency=PKR].override-currency .append-currency::after { 
+    content: "₨";
+}
+
+[data-store-default-currency=THB] .append-currency::after , [data-currency=THB].override-currency .append-currency::after { 
+    content: "฿";
+}
+
+[data-store-default-currency=IDR] .append-currency::after , [data-currency=IDR].override-currency .append-currency::after { 
+    content: "Rp";
+}
+
+[data-store-default-currency=TWD] .append-currency::before, [data-currency=TWD].override-currency .append-currency::before { 
+	content: "NT$";
+}
+
+[data-store-default-currency=UYU] .append-currency::before, [data-currency=UYU].override-currency .append-currency::before { 
+	content: "$U";
+}
+
+[data-store-default-currency=MXN] .append-currency::before, [data-currency=MXN].override-currency .append-currency::before { 
+	content: "Mex$";
+}
+
+[data-store-default-currency=TWD] .append-currency::before, [data-currency=TWD].override-currency .append-currency::before { 
+	content: "NT$";
+}
+
+[data-store-default-currency=GHS] .append-currency::before, [data-currency=GHS].override-currency .append-currency::before { 
+	content: "GH¢";
+}
+
+[data-store-default-currency=MAD] .append-currency::after, [data-currency=MAD].override-currency .append-currency::after { 
+	content: "DH";
+}
+
+[data-store-default-currency=RUB] .append-currency::after, [data-currency=RUB].override-currency .append-currency::after { 
+	content: "\20bd";
+}
+
+[data-store-default-currency=PHP] .append-currency::after, [data-currency=PHP].override-currency .append-currency::after { 
+	content: "₱";
+}
+
+/*https://r12a.github.io/apps/conversion/*/
+
+.items-table .visitor-snippet img.visitor-avatar {
+    width: 50px;
+    height: 50px;
+    margin: 5px;
+    border-radius: 25px;
+}
+
+.visitor-snippet img {
+    vertical-align: middle;
+}
+
+.visitor-snippet .visitor-email{
+	display:inline;
+}
+
+.inner-data{
+    font-family:Arial;
+    color:rgba(255,255,255,0.5);
+    max-width: 150px;
+    word-break: break-all;
+    font-size:14px;
+}
+
+.inner-data a {
+    text-decoration: none;
+    color: rgba(255,255,255,0.5);
+}
+
+
+.digest-wrapper {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width:100%;
+    transform: translateX(-50%);
+}
+
+.store-digest, .communication-digest{
+	text-align: center;
+}
+
+.transfers-wrapper{
+	text-align: left;
+}
+
+
+.imos-content .transfers-wrapper  .info-box{
+    display: inline-block;
+    border: 1px solid white;
+    color: white;
+    text-align: left;
+    font-family: Arial;
+    font-size:14px;
+    vertical-align: top;
+    padding: 30px 10px;
+    width: 25%;
+    margin: 0px;
+    margin-right: 10px;
+    margin-bottom: 15px;
+    /*padding-left:30px;*/
+    height:50px;
+    min-width: 350px;
+}
+
+.imos-content .transfers-wrapper  .info-box #next-deposite{
+	font-size:40px;
+}
+
+
+
+
+.row.cloned{
+	opacity:0.5;
+}
+
+.row.cloned .actions{
+    background-image: url(/images/x_loader.gif);
+    background-repeat: no-repeat;
+    background-size: 50px;
+    background-position: center;
+}
+
+img.visitor-country{
+	height: 11px;
+}
+
+
+.row.item.hidden{
+	display:none;
+}
+
+
+
+.items-table .profile-no-img {
+    width: 40px;
+    border-radius: 20px;
+    background-color: red;
+    height: 40px;
+}
+
+.items-table img.visitor-avatar{
+	width: 40px;
+    border-radius: 20px;
+}
+
+.items-table .funnel{
+	display: inline-block;
+    color: white;
+    background-color: rgba(0,0,0,0.3);
+    text-align: center;
+    width: 50px;
+    padding: 10px 10px;
+    font-family: Arial;
+    font-size: 12px;
+}
+
+
+.items-table .device{
+	width: 40px;
+}
+
+.items-table .funnel.achieved{
+	background-color:#339966;
+}
+
+.source-bg[data-interaction=google]{
+	background-color:#D62D20;
+}
+
+
+.source-bg[data-interaction=ppc]{
+	background-color:#90C140;
+}
+
+.source-bg[data-interaction=articles]{
+	background-color:#814C8A;
+}
+
+
+.source-bg[data-interaction=email]{
+	background-color:#745446;
+}
+
+
+.source-bg[data-interaction=facebook]{
+	background-color:#425F9C;
+}
+
+
+.source-bg[data-interaction=bing]{
+	background-color:#FFCC00;
+}
+
+
+.source-bg[data-interaction=direct]{
+	background-color:#FBBA9E;
+}
+
+
+.source-bg[data-interaction=other]{
+	background-color:#656565;
+}
+
+
+.source-txt[data-interaction=google]{
+	color:#D62D20;
+}
+
+
+.source-txt[data-interaction=ppc]{
+	color:#90C140;
+}
+
+.source-txt[data-interaction=articles]{
+	color:#814C8A;
+}
+
+
+.source-txt[data-interaction=email]{
+	color:#745446;
+}
+
+
+.source-txt[data-interaction=facebook]{
+	color:#425F9C;
+}
+
+
+.source-txt[data-interaction=bing]{
+	color:#FFCC00;
+}
+
+
+.source-txt[data-interaction=direct]{
+	color:#FBBA9E;
+}
+
+
+.source-txt[data-interaction=other]{
+	color:#656565;
+}
+
+.pagination-btn{
+	font-family: Arial;
+    color: white;
+}
+
+
+.shadowed{
+	-webkit-box-shadow: 0px 10px 20px 0px rgba(0, 0, 0, 0.5);
+	-moz-box-shadow:    0px 10px 20px 0px rgba(0, 0, 0, 0.5);
+	box-shadow:         0px 10px 20px 0px rgba(0, 0, 0, 0.5);
+}

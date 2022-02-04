@@ -1,0 +1,515 @@
+/******************************************************************************************************
+ *                                             CMS START 
+ ******************************************************************************************************/
+
+var XPRSCMS = {};
+
+/******************************************************************************************************
+ *                                               MAIN
+ *                                  called from body onLoad func    
+ ******************************************************************************************************/
+
+XPRSCMS.start = function(relevantContext){
+	$(document).ready(function() {
+		if (typeof relevantContext == "undefined"){
+			relevantContext = $("body");
+		}
+		//console.log("binding " + relevantContext.find(".items-table input:not(.check-sold-out), .items-table textarea, .items-table select").length + "  items")
+		
+		relevantContext.find(".row").each(function(){
+			XPRSCMS.bindRowActions($(this));
+		});
+		
+		
+		
+		
+		relevantContext.find(".add-item-btn").bind("click",function(){
+			XPRSCMS.addItem(relevantContext);
+		});
+		
+		relevantContext.find(".folder.row .item-thumb").bind("click",function(){
+			var clickedBtn = $(this);
+			var relevantRow = clickedBtn.closest("tr");
+			var CMSContent = relevantContext.find(".cms-content");
+			CMSContent.empty();
+			CMSContent.closest(".imos-window").addClass("loading-state");
+			CMSContent.load("/cms/" + relevantRow.attr("id") + "?show_column_name=true&root_id="+XPRSStore.storeId,function(){
+				XPRSCMS.start(relevantContext);
+				CMSContent.closest(".imos-window").removeClass("loading-state");
+			});
+		});
+		
+	});
+};
+
+
+
+XPRSCMS.bindRowActions = function(row){
+	row.find("input:not(.check-sold-out), textarea,  select").bind("change",function(e){
+		var element = $(this);
+		XPRSCMS.save(element,function(){
+			element.removeClass("dirty");
+		});
+	}).bind("keyup",function(e){
+		var element = $(this);
+		element.addClass("dirty");
+		XPRSCMS.markAsDirty(element.closest(".row"));
+		//element.closest(".dirty-flag-holder").addClass("dirty");
+	});
+	
+	row.find(".delete-btn").bind("click",function(e){
+		var clickedBtn = $(this);
+		var relevantRow = clickedBtn.closest("tr");
+		//relevantRow.closest(".dirty-flag-holder").addClass("dirty");
+		XPRSCMS.markAsDirty(relevantRow);
+		XPRSCMS.deleteItem(relevantRow);
+	});
+	
+	row.find(".edit-btn").bind("click",function(e){
+		var clickedBtn = $(this);
+		var relevantRow = clickedBtn.closest("tr");
+		XPRSCMS.markAsDirty(relevantRow);
+		XPRSCMS.editItem(relevantRow);
+	});
+	
+	if (row.is(".item")){
+		row.find(".item-thumb").unbind("click").bind("click",function(){
+			var clickedBtn = $(this);
+			var relevantRow = clickedBtn.closest("tr");
+			XPRSCMS.markAsDirty(relevantRow);
+			XPRSCMS.editItem(relevantRow);
+		});
+	}
+	
+	
+	
+	row.find(".move-btn").bind("click",function(e){
+		var clickedBtn = $(this);
+		var relevantRow = clickedBtn.closest("tr");
+		//relevantRow.closest(".dirty-flag-holder").addClass("dirty");
+		XPRSCMS.markAsDirty(relevantRow);
+		var direction = (clickedBtn.hasClass("up-btn")) ? "up" : "down";
+		XPRSCMS.moveItem(relevantRow,direction);
+	});
+	
+	row.find(".check-sold-out").bind("click",function(e){
+		var clickedBtn = $(this);
+		var relevantRow = clickedBtn.closest("tr");
+		var parentId = clickedBtn.closest(".items-table").attr("id");
+		var itemId = clickedBtn.closest("tr").attr("id");
+		var element = clickedBtn.closest("tr").find(".product-price .element");
+		var elementId = element.attr("id");
+		var updatedValue = "true";
+		if (!clickedBtn.is(":checked")){
+			updatedValue = "false";
+		}
+		XPRSCMS.markAsDirty(relevantRow);
+		XPRSHelper.SAFEPOST("/update_specific_child_key",{"vbid":itemId,"child_vbid":elementId,"updated_key":"SOLD_OUT","updated_value":updatedValue,"stripe_id":parentId},itemId,"UPDATE-CHILD",function() {
+		});
+		relevantRow.toggleClass("sold-out");
+	});
+	
+	
+};
+
+
+XPRSCMS.markAsDirty = function(updatedRow){
+	if (!updatedRow.is(".folder")){
+		var dirtyFlagHolder = updatedRow.closest(".dirty-flag-holder").addClass("dirty");
+		var allDirtyStripes = dirtyFlagHolder.attr("data-dirty-stripes");
+		if (allDirtyStripes){
+			allDirtyStripes = JSON.parse(allDirtyStripes);
+		}else{
+			allDirtyStripes = {};
+		}
+		var stripeId = updatedRow.attr("data-stripe-id");
+		allDirtyStripes[stripeId] = true;
+		dirtyFlagHolder.attr("data-dirty-stripes",JSON.stringify(allDirtyStripes));
+	}
+};
+
+
+XPRSCMS.deleteItem = function(itemToDelete,callbackFunc){
+	var itemsTable = itemToDelete.closest(".items-table");
+	if (!itemsTable.is(".disable-actions")){
+		var parentId = itemToDelete.attr("data-stripe-id");
+		itemsTable.addClass("disable-actions");
+		var itemId = itemToDelete.attr("id");
+		itemToDelete.remove();
+		XPRSHelper.SAFEPOST("/remove_child",{"parent":parentId , "child": itemId,"stripe_id":parentId},parentId,"REMOVE-CHILD",function() {
+			itemsTable.removeClass("disable-actions");
+		});
+	}
+}
+
+
+XPRSCMS.editItem = function(itemToEdit,callbackFunc){
+	$(".imos-window").css({"overflow-y":"hidden"}).scrollTop(0);
+	var itemsTable = itemToEdit.closest(".items-table");
+	if (!itemsTable.is(".disable-actions")){
+		var parentId = itemToEdit.attr("data-stripe-id");
+		//var parentId = itemsTable.attr("id");
+		itemsTable.addClass("disable-actions");
+		var itemId = itemToEdit.attr("id");
+		$(".imos-close.imos-ok-btn.imos-btn").addClass("disabled-btn");
+		var popWrapper = $("#imos-popup-wrapper")
+		
+		var popupContent = popWrapper.find("#imos-popup-content");
+		popupContent.removeClass().addClass("store shadowed");
+		popupContent.addClass("loading-state");
+		popWrapper.fadeIn();
+		popupContent.load("/cms_product?vbid=" + itemId + "&parent_id="+parentId,function(){
+			popupContent.find(".element-property").bind("change",function(e){
+				var element = $(this);
+				element.addClass("dirty");
+				//unlock the disabled fields
+				if ((element.attr("data-key") == "TEXT") && (element.attr("data-element-type") == "PRICE")){
+					popupContent.find(".element-property[data-element-type='PRICE'] , .check-sold-out").removeAttr("disabled");
+				}
+			});
+			popupContent.find(".check-sold-out").bind("change",function(e){
+				if ($(this).is(":checked")){
+					$(this).prev("input.element-property").val("True").addClass("dirty");
+				}else{
+					$(this).prev("input.element-property").val("False").addClass("dirty");
+				}
+			});
+			
+			popupContent.find("#show-product-page").bind("change",function(e){
+				$(this).addClass("dirty");
+			});
+			
+			
+			XPRSCMS.initUploader(popupContent.find(".main-product-image"),parentId);
+			
+			
+			popupContent.find(".shipping-details").text($(".store-settings #flat_rate_shipping").val());
+			
+			popupContent.removeClass("loading-state");
+			popupContent.find(".imos-save-btn").click(function(){
+				$(this).addClass("loading-state");
+				itemsTable.removeClass("disable-actions");
+				XPRSCMS.saveProduct(itemId,parentId,function(){
+					var currentShownFolder = $(".items-table").attr("id");
+					var currentTab = $(".imos-menu .nav-btn.selected");
+					if (currentTab.attr("data-nav-to") == "products"){
+						currentTab.click();
+						XPRSCMS.closePopup();
+					}else{
+						var CMSContent = $(".cms-content");
+						var url = "/cms/" + XPRSStore.storeId;
+						url = "/cms/" + currentShownFolder + "?show_column_name=true";
+						XPRSStore.loadSection(CMSContent,url,{},function(){
+							XPRSCMS.start($(".imos-content"));
+							XPRSCMS.closePopup();
+						});
+					}
+					
+					
+					
+				});
+				var showProductPage = popupContent.find("#show-product-page")
+				if (showProductPage.is(".dirty")){
+					XPRSCMS.updateAllowInnerPage(parentId,showProductPage.is(":checked"));
+				}
+				
+				
+			});
+			popupContent.find(".imos-preview-btn").click(function(){
+				XPRSCMS.previewProduct(itemId);
+			});
+		});
+		
+		popupContent.attr("data-store-default-currency",itemToEdit.closest("[data-store-default-currency]").attr("data-store-default-currency"))
+		
+		popupContent.unbind("click").bind("click",function(e){
+			e.stopPropagation();
+		});
+		
+		popWrapper.unbind("click").bind("click",function(e){
+			e.stopPropagation();
+			itemsTable.removeClass("disable-actions");
+			XPRSCMS.closePopup();
+		});
+	}
+}
+
+
+XPRSCMS.updateAllowInnerPage = function(parentId,showInnerPage ){
+	if (showInnerPage){
+		$.post("/update_css_class", {"vbid":parentId,"updated_key":"PRODUCT_INNER_PAGE","updated_value":"show-product-inner-page","stripe_id":parentId});
+	}else{
+		$.post("/update_css_class", {"vbid":parentId,"updated_key":"PRODUCT_INNER_PAGE","delete_key":"True","stripe_id":parentId}, parentId, "CSS_CLASS");
+	}
+};
+
+
+
+XPRSCMS.previewProduct = function(pid){
+	var rootId = $("body").attr("data-root-id");
+	var productUrl = window.location.protocol + "//" + window.location.host + "/viewer/" + rootId +"/product/" + pid;
+	window.open(productUrl);
+};
+
+XPRSCMS.saveProduct = function(itemId,stripeId,callbackFunc){
+	var elementsContent = {};
+	var elementsToCreate = {};
+	
+	var dirtyElements = $(".product-cms .dirty.element-property");
+	dirtyElements.each(function(){
+		var currentElement = $(this);
+		var elementId = currentElement.attr("id");
+		var elementType = currentElement.attr("data-element-type");
+		var propKey = currentElement.attr("data-key");
+		var propValue = currentElement.val();
+		//create element
+		if (!elementId){
+			elementId = XPRSCMS.shortUuid()
+			if (!(elementType in elementsToCreate)){
+				elementsToCreate[elementType] = {"VBID":elementId,"CONTEXT":"PREVIEW"};
+			}
+			elementsToCreate[elementType][propKey] = propValue
+			if (elementType == "BODY"){
+				elementsToCreate[elementType]["HTML"] = propValue;
+			}
+			if (elementType == "PRICE"){
+				elementsToCreate[elementType]["PRODUCT_ID"] = elementId.replace("vbid-","product-");
+			}
+		}else{
+			if (!(elementId in elementsContent)){
+				elementsContent[elementId] = {};
+			}
+			if (!(elementType in elementsContent[elementId])){
+				elementsContent[elementId][elementType] = {};
+			}
+			elementsContent[elementId][elementType][propKey] = propValue;
+		}
+	});
+	if (dirtyElements.length > 0){
+		//console.log(JSON.stringify(elementsToCreate))
+		XPRSHelper.POST("/save_item", {"item_id":itemId,"elements_content":JSON.stringify(elementsContent),"elements_to_create":JSON.stringify(elementsToCreate),"stripe_id":stripeId}, function(){
+			if (typeof callbackFunc != "undefined"){
+				callbackFunc();
+			}
+		});
+	}else{
+		if (typeof callbackFunc != "undefined"){
+			callbackFunc();
+		}
+	}
+
+};
+
+
+
+XPRSCMS.closePopup = function(){
+	var popWrapper = $("#imos-popup-wrapper")
+	var popupContent = popWrapper.find("#imos-popup-content");
+	$(".imos-window").css({"overflow-y":"auto"});
+	popWrapper.fadeOut(function(){
+		popupContent.empty();
+		popupContent.removeClass("auto-width");
+	});
+	$(".imos-close.imos-ok-btn.imos-btn").removeClass("disabled-btn");
+}
+
+
+XPRSCMS.initUploader = function(btn,parentId){
+	//parentSelector.find(".item .item-thumb").each(function(){
+		//var btn = $(this);
+		var parentId = btn.closest(".items-table").attr("id");
+		var itemId = btn.closest(".product-cms").attr("id");
+		var elementId = btn.attr("id");
+		var imageIdPrefix = "";
+		
+		if (elementId == "no-image"){
+			imageIdPrefix = "-please-create";
+			elementId = XPRSCMS.shortUuid();
+			btn.attr("id",elementId)
+		}
+		
+		
+		var replaceUploder = $("<div id='uploader" + elementId + "' />").css("display","none");
+		$("body").append(replaceUploder);
+		var params = {};
+		
+		params["element_id"] = elementId + imageIdPrefix;
+		params["parent_id"] = itemId;
+		params["stripe_id"]  = parentId;
+		
+		var extraBtns = [];
+			extraBtns.push({
+				element : btn
+			});
+		
+		
+		replaceUploder.fineUploader({
+			request : {
+				endpoint : "/upload_pic",
+				params : params
+			},
+			 cors: {
+			        expected: true
+			    },
+			multiple : false,
+			paramsInBody : true,
+			validation : {
+				allowedExtensions : [ 'jpeg', 'jpg', 'png', 'gif' ],
+				sizeLimit : 5000000
+			},
+			extraButtons : extraBtns
+		}).on('submit', function (event, id, filename, uploadedBytes, totalBytes) {
+		}).on('complete',function(event, id, fileName, responseJSON) {
+			XPRSCMS.markAsDirty(btn);
+			if (responseJSON.success) {
+				btn.css("background-image","url(" + decodeURIComponent(responseJSON.url) + ")")
+			}
+			
+		});
+	//});
+}
+
+
+XPRSCMS.moveItem = function(itemToMove,direction,callbackFunc){
+	var itemsTable = itemToMove.closest(".items-table");
+	if (!itemsTable.is(".disable-actions")){
+		var parentId = itemsTable.attr("id");
+		var itemId = itemToMove.attr("id");
+		itemsTable.addClass("disable-actions");
+		XPRSHelper.SAFEPOST("/move_child",{"parent":parentId , "vbid": itemId,"direction":direction,"stripe_id":parentId},parentId,"MOVE-CHILD");
+		if (direction == "up"){
+			itemToMove.after(itemToMove.prev());
+		}else{
+			itemToMove.before(itemToMove.next());
+		}
+		itemsTable.removeClass("disable-actions");
+	}
+};
+
+
+XPRSCMS.save = function(element,callbackFunc){
+	var row = element.closest("tr");
+	
+	var parentId = row.attr("data-stripe-id");
+	var itemId = row.attr("id");
+	var elementId = element.attr("id");
+	var updatedKeys = element.attr("data-key");
+	var updatedValues = element.val();
+	
+	
+	if (row.is(".folder")){
+		XPRSHelper.POST("/update_specific_key", {vbid:itemId,section:"META",updated_key:"NAME",updated_value:updatedValues}, function(){
+			if (typeof callbackFunc != "undefined"){
+				callbackFunc();
+			}
+		});
+		return
+	}
+	
+	if (element.is("textarea")){
+		var strippedContent = XPRSCMS.stripTags(updatedValues, '<br><br/>');
+		updatedValues = updatedValues.replace(/&nbsp;/gi, ' ') + "|||" +  strippedContent ;
+		updatedKeys += "|TEXT";
+	}
+
+	
+	if (elementId){
+		XPRSHelper.SAFEPOST("/update_element_content",{
+			"element_id":elementId,
+			"parent_id":itemId,
+			"prop_name":updatedKeys,
+			"prop_value":updatedValues,
+			"stripe_id":parentId
+			},parentId,"UPDATE-CHILD",function() {
+			if (typeof callbackFunc != "undefined"){
+				callbackFunc();
+			}
+		});
+
+	}else{
+		elementId = XPRSCMS.shortUuid()
+		element.attr("id",elementId);
+		var elementType = element.attr("data-element-type");
+		var elementContent = {};
+		elementContent[elementType] = {"VBID":elementId,"CONTEXT":"PREVIEW","TEXT":element.val()};
+		if (elementType == "BODY"){
+			elementContent[elementType]["HTML"] = element.val()
+		}
+		if (elementType == "PRICE"){
+			elementContent[elementType]["PRODUCT_ID"] = elementId.replace("vbid-","product-");
+			row.find(".product-type").add(row.find(".check-sold-out")).removeAttr("disabled");
+		}
+			
+		XPRSHelper.SAFEPOST("/create_element",{
+			"item_id":itemId,
+			"element_id":elementId,
+			"element_content":JSON.stringify(elementContent),
+			"stripe_id":parentId
+		},parentId,"UPDATE-CHILD",function(){
+			if (typeof callbackFunc != "undefined"){
+				callbackFunc();
+			}
+		});
+	}
+
+};
+
+XPRSCMS.shortUuid = function(prefix) {
+	if (typeof prefix == "undefined"){
+		prefix = "element";
+	}
+	return prefix + '-xxxxxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+		var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
+		return v.toString(16);
+	});
+};
+
+
+XPRSCMS.stripTags = function (input, allowed) {
+    /* http://kevin.vanzonneveld.net*/
+
+    if ( input == undefined ) { return ''; }
+
+    allowed = (((allowed || "") + "").toLowerCase().match(/<[a-z][a-z0-9]*>/g) || []).join(''); // making sure the allowed arg is a string containing only tags in lowercase (<a><b><c>)
+    var tags = /<\/?([a-z][a-z0-9]*)\b[^>]*>/gi;
+    var commentsAndPhpTags = /<!--[\s\S]*?-->|<\?(?:php)?[\s\S]*?\?>/gi;
+    var spaces = /&nbsp;/gi;
+    return input.replace(commentsAndPhpTags, '').replace(spaces, ' ').replace(tags, function (a, b) {
+        return allowed.indexOf('<' + b.toLowerCase() + '>') > -1 ? a : '';
+    });
+}
+
+
+
+
+XPRSCMS.addItem = function(parentSelector){
+	var parentId = parentSelector.find(".items-table").attr("id");
+	var itemToClone = $(".items-table").find(".item").last();
+	
+	var newItem = itemToClone.clone(true);
+	newItem.addClass("cloned");
+	parentSelector.find(".items-table").append(newItem);
+	var safeCloneParams = {
+			vbid : itemToClone.attr("id"),
+			original_parent_id : parentId,
+			clone_after_id:itemToClone.attr("id"),
+			clone_into:parentId,
+			keep_style : true,
+			keep_preview_style:true,
+			update_unique_style:true
+	}
+	XPRSHelper.POST("/safe_clone", safeCloneParams, function(result) {
+		var cloneId = result.clone_id;
+		newItem.attr("id",cloneId);
+		XPRSHelper.POST("/invalidate_stripe_cache", {stripe_id:parentId,"type":"json"}, function(){
+			//itemToClone.closest(".dirty-flag-holder").addClass("dirty");
+			XPRSCMS.markAsDirty(itemToClone);
+			
+			var loadedRow = $("<div />").load("/cms_row?vbid=" + cloneId + "&parent_id=" + parentId,function(){
+				XPRSCMS.bindRowActions(loadedRow);
+				newItem.replaceWith(loadedRow.find(".row"))
+			});
+		});	
+	});
+};
+
